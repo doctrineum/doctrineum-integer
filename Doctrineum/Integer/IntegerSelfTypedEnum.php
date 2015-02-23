@@ -1,15 +1,12 @@
 <?php
 namespace Doctrineum\Integer;
 
-use Doctrineum\Generic\SelfTypedEnum;
-
 /**
 * @method static IntegerSelfTypedEnum getType($name),
  * @see SelfTypedEnum::getType
 */
-class IntegerSelfTypedEnum extends SelfTypedEnum
+class IntegerSelfTypedEnum extends IntegerEnum
 {
-    use IntegerEnumTrait;
     use IntegerEnumTypeTrait;
 
     /**

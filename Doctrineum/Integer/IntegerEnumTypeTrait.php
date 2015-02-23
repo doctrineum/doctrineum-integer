@@ -78,4 +78,15 @@ trait IntegerEnumTypeTrait {
     {
         return IntegerEnum::class;
     }
+
+    /**
+     * Gets the strongly recommended name of this type.
+     * Its used at @see \Doctrine\DBAL\Platforms\AbstractPlatform::getDoctrineTypeComment
+     *
+     * @return string
+     */
+    public static function getTypeName()
+    {
+        return 'integer-enum';
+    }
 }

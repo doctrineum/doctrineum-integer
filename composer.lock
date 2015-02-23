@@ -639,7 +639,7 @@
             "source": {
                 "type": "git",
                 "url": "/home/jaroslav/Dropbox/Projects/doctrineum/generic",
-                "reference": "a6c7d4bbfaf0e840b73ebe97bbd02668af24f881"
+                "reference": "2a2d80346414fb25560e2395bc2c11cfc38a89c6"
             },
             "require": {
                 "doctrine/dbal": "2.4.*",
@@ -661,7 +661,7 @@
                 "MIT"
             ],
             "description": "Enumeration type for Doctrine",
-            "time": "2015-02-23 13:31:00"
+            "time": "2015-02-23 20:55:57"
         }
     ],
     "packages-dev": [
