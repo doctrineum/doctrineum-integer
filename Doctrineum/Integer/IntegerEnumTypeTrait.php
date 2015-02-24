@@ -3,7 +3,8 @@ namespace Doctrineum\Integer;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
-trait IntegerEnumTypeTrait {
+trait IntegerEnumTypeTrait
+{
 
     /**
      * Gets the SQL declaration snippet for a field of this type.
@@ -32,6 +33,7 @@ trait IntegerEnumTypeTrait {
 
     /**
      * Convert enum instance to database integer value
+     * @see \Doctrineum\Generic\EnumType::convertToDatabaseValue as overloaded parent
      *
      * @param IntegerEnum $enumValue
      * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
@@ -51,10 +53,12 @@ trait IntegerEnumTypeTrait {
             );
         }
 
-        return $enumValue->getValue();
+        return $enumValue->getEnumValue();
     }
 
     /**
+     * @see \Doctrineum\Generic\EnumType::convertToPHPValue for usage
+     *
      * @param string $enumValue
      * @return IntegerEnum
      */
@@ -68,7 +72,7 @@ trait IntegerEnumTypeTrait {
 
         $enumClass = static::getEnumClass();
         /** @var IntegerEnum $enumClass */
-        return $enumClass::get($enumValue);
+        return $enumClass::getEnum($enumValue);
     }
 
     /**

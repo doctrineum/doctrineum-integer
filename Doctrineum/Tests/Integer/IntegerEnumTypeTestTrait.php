@@ -4,19 +4,24 @@ namespace Doctrineum\Tests\Integer;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 use Doctrineum\Integer\IntegerEnum;
-use Doctrineum\Integer\IntegerEnumType;
 
 trait IntegerEnumTypeTestTrait
 {
-
-    // SET UP
+    /**
+     * @return \Doctrineum\Integer\IntegerEnumType|\Doctrineum\Integer\IntegerSelfTypedEnum
+     */
+    protected function getEnumTypeClass()
+    {
+        return preg_replace('~Test$~', '', static::class);
+    }
 
     protected function setUp()
     {
-        if (Type::hasType(IntegerEnumType::getTypeName())) {
-            Type::overrideType(IntegerEnumType::getTypeName(), IntegerEnumType::class);
+        $enumTypeClass = $this->getEnumTypeClass();
+        if (Type::hasType($enumTypeClass::getTypeName())) {
+            Type::overrideType($enumTypeClass::getTypeName(), $enumTypeClass);
         } else {
-            Type::addType(IntegerEnumType::getTypeName(), IntegerEnumType::class);
+            Type::addType($enumTypeClass::getTypeName(), $enumTypeClass);
         }
     }
 
@@ -31,23 +36,24 @@ trait IntegerEnumTypeTestTrait
      */
     protected function createObjectInstance()
     {
-        return IntegerEnumType::getType(IntegerEnumType::getTypeName());
+        $enumTypeClass = $this->getEnumTypeClass();
+        return $enumTypeClass::getType($enumTypeClass::getTypeName());
     }
 
-    // TESTS THEMSELVES
-
     /** @test */
-    public function instance_can_be_obtained()
+    public function can_create_enum_type_instance()
     {
-        $instance = IntegerEnumType::getType(IntegerEnumType::getTypeName());
+        $enumTypeClass = $this->getEnumTypeClass();
+        $instance = $enumTypeClass::getType($enumTypeClass::getTypeName());
         /** @var \PHPUnit_Framework_TestCase $this */
-        $this->assertInstanceOf(IntegerEnumType::class, $instance);
+        $this->assertInstanceOf($enumTypeClass, $instance);
     }
 
     /** @test */
     public function sql_declaration_is_valid()
     {
-        $enumType = IntegerEnumType::getType(IntegerEnumType::getTypeName());
+        $enumTypeClass = $this->getEnumTypeClass();
+        $enumType = $enumTypeClass::getType($enumTypeClass::getTypeName());
         $sql = $enumType->getSQLDeclaration([], $this->getAbstractPlatform());
         /** @var \PHPUnit_Framework_TestCase $this */
         $this->assertSame('INTEGER', $sql);
@@ -58,14 +64,16 @@ trait IntegerEnumTypeTestTrait
      */
     public function enum_as_database_value_is_integer_value_of_that_enum()
     {
-        $enumType = IntegerEnumType::getType(IntegerEnumType::getTypeName());
+        $enumTypeClass = $this->getEnumTypeClass();
+        $enumType = $enumTypeClass::getType($enumTypeClass::getTypeName());
         $enum = \Mockery::mock(IntegerEnum::class);
-        $enum->shouldReceive('getValue')
+        $enum->shouldReceive('getEnumValue')
             ->once()
             ->andReturn($value = 12345);
         /** @var IntegerEnum $enum */
         /** @var \PHPUnit_Framework_TestCase|IntegerEnumTypeTestTrait $this */
         $this->assertSame($value, $enumType->convertToDatabaseValue($enum, $this->getAbstractPlatform()));
+        \Mockery::close();
     }
 
     /**
@@ -73,11 +81,12 @@ trait IntegerEnumTypeTestTrait
      */
     public function integer_to_php_value_gives_enum_with_that_integer()
     {
-        $enumType = IntegerEnumType::getType(IntegerEnumType::getTypeName());
+        $enumTypeClass = $this->getEnumTypeClass();
+        $enumType = $enumTypeClass::getType($enumTypeClass::getTypeName());
         $enum = $enumType->convertToPHPValue($integer = 12345, $this->getAbstractPlatform());
         /** @var \PHPUnit_Framework_TestCase $this */
         $this->assertInstanceOf(IntegerEnum::class, $enum);
-        $this->assertSame($integer, $enum->getValue());
+        $this->assertSame($integer, $enum->getEnumValue());
         $this->assertSame("$integer", (string)$enum);
     }
 
@@ -87,7 +96,8 @@ trait IntegerEnumTypeTestTrait
      */
     public function string_integer_to_php_value_causes_exception()
     {
-        $enumType = IntegerEnumType::getType(IntegerEnumType::getTypeName());
+        $enumTypeClass = $this->getEnumTypeClass();
+        $enumType = $enumTypeClass::getType($enumTypeClass::getTypeName());
         $enumType->convertToPHPValue('12345', $this->getAbstractPlatform());
     }
 
@@ -97,7 +107,8 @@ trait IntegerEnumTypeTestTrait
      */
     public function null_to_php_value_causes_exception()
     {
-        $enumType = IntegerEnumType::getType(IntegerEnumType::getTypeName());
+        $enumTypeClass = $this->getEnumTypeClass();
+        $enumType = $enumTypeClass::getType($enumTypeClass::getTypeName());
         $enumType->convertToPHPValue(null, $this->getAbstractPlatform());
     }
 
@@ -107,7 +118,8 @@ trait IntegerEnumTypeTestTrait
      */
     public function empty_string_to_php_value_causes_exception()
     {
-        $enumType = IntegerEnumType::getType(IntegerEnumType::getTypeName());
+        $enumTypeClass = $this->getEnumTypeClass();
+        $enumType = $enumTypeClass::getType($enumTypeClass::getTypeName());
         $enumType->convertToPHPValue('', $this->getAbstractPlatform());
     }
 
@@ -117,7 +129,8 @@ trait IntegerEnumTypeTestTrait
      */
     public function float_to_php_value_cause_exception()
     {
-        $enumType = IntegerEnumType::getType(IntegerEnumType::getTypeName());
+        $enumTypeClass = $this->getEnumTypeClass();
+        $enumType = $enumTypeClass::getType($enumTypeClass::getTypeName());
         $enumType->convertToPHPValue(12345.6789, $this->getAbstractPlatform());
     }
 
@@ -127,7 +140,8 @@ trait IntegerEnumTypeTestTrait
      */
     public function zero_float_to_php_value_cause_exception()
     {
-        $enumType = IntegerEnumType::getType(IntegerEnumType::getTypeName());
+        $enumTypeClass = $this->getEnumTypeClass();
+        $enumType = $enumTypeClass::getType($enumTypeClass::getTypeName());
         $enumType->convertToPHPValue(0.0, $this->getAbstractPlatform());
     }
 
@@ -137,7 +151,8 @@ trait IntegerEnumTypeTestTrait
      */
     public function false_to_php_value_cause_exception()
     {
-        $enumType = IntegerEnumType::getType(IntegerEnumType::getTypeName());
+        $enumTypeClass = $this->getEnumTypeClass();
+        $enumType = $enumTypeClass::getType($enumTypeClass::getTypeName());
         $enumType->convertToPHPValue(false, $this->getAbstractPlatform());
     }
 
@@ -147,7 +162,8 @@ trait IntegerEnumTypeTestTrait
      */
     public function true_to_php_value_cause_exception()
     {
-        $enumType = IntegerEnumType::getType(IntegerEnumType::getTypeName());
+        $enumTypeClass = $this->getEnumTypeClass();
+        $enumType = $enumTypeClass::getType($enumTypeClass::getTypeName());
         $enumType->convertToPHPValue(true, $this->getAbstractPlatform());
     }
 
@@ -157,7 +173,8 @@ trait IntegerEnumTypeTestTrait
      */
     public function array_to_php_value_cause_exception()
     {
-        $enumType = IntegerEnumType::getType(IntegerEnumType::getTypeName());
+        $enumTypeClass = $this->getEnumTypeClass();
+        $enumType = $enumTypeClass::getType($enumTypeClass::getTypeName());
         $enumType->convertToPHPValue([], $this->getAbstractPlatform());
     }
 
@@ -167,7 +184,8 @@ trait IntegerEnumTypeTestTrait
      */
     public function resource_to_php_value_cause_exception()
     {
-        $enumType = IntegerEnumType::getType(IntegerEnumType::getTypeName());
+        $enumTypeClass = $this->getEnumTypeClass();
+        $enumType = $enumTypeClass::getType($enumTypeClass::getTypeName());
         $enumType->convertToPHPValue(tmpfile(), $this->getAbstractPlatform());
     }
 
@@ -177,7 +195,8 @@ trait IntegerEnumTypeTestTrait
      */
     public function object_to_php_value_cause_exception()
     {
-        $enumType = IntegerEnumType::getType(IntegerEnumType::getTypeName());
+        $enumTypeClass = $this->getEnumTypeClass();
+        $enumType = $enumTypeClass::getType($enumTypeClass::getTypeName());
         $enumType->convertToPHPValue(new \stdClass(), $this->getAbstractPlatform());
     }
 
@@ -187,7 +206,8 @@ trait IntegerEnumTypeTestTrait
      */
     public function callback_to_php_value_cause_exception()
     {
-        $enumType = IntegerEnumType::getType(IntegerEnumType::getTypeName());
+        $enumTypeClass = $this->getEnumTypeClass();
+        $enumType = $enumTypeClass::getType($enumTypeClass::getTypeName());
         $enumType->convertToPHPValue(function () {
         }, $this->getAbstractPlatform());
     }

@@ -514,7 +514,7 @@
             "source": {
                 "type": "git",
                 "url": "/home/jaroslav/Dropbox/Projects/granam/strict-object",
-                "reference": "6c21fbe03d70b501f46d4eb3189ca879a1d2b4d2"
+                "reference": "798790a18f0ec7e26f5097ef179bb52c306590af"
             },
             "require": {
                 "granam/exception-hierarchy": "dev-master",
@@ -546,7 +546,7 @@
                 "php",
                 "strict"
             ],
-            "time": "2015-02-11 17:35:11"
+            "time": "2015-02-24 09:31:08"
         },
         {
             "name": "granam/strict-scalar",
@@ -639,7 +639,7 @@
             "source": {
                 "type": "git",
                 "url": "/home/jaroslav/Dropbox/Projects/doctrineum/generic",
-                "reference": "2a2d80346414fb25560e2395bc2c11cfc38a89c6"
+                "reference": "c9228881d1a0e4c12ae0839c0e4571d909090aee"
             },
             "require": {
                 "doctrine/dbal": "2.4.*",
@@ -661,7 +661,7 @@
                 "MIT"
             ],
             "description": "Enumeration type for Doctrine",
-            "time": "2015-02-23 20:55:57"
+            "time": "2015-02-24 10:24:15"
         }
     ],
     "packages-dev": [
