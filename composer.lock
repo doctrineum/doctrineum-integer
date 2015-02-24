@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0998957353e098f87b34ef492d993be5",
+    "hash": "4c5c2d21d9d2d6d7b60dfe69991ebaa2",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -589,49 +589,6 @@
                 "strict"
             ],
             "time": "2015-02-11 12:32:00"
-        },
-        {
-            "name": "granam/strict-string",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "/home/jaroslav/Dropbox/Projects/granam/strict-string",
-                "reference": "9abfb6e73b095ec110e452ddda39d7e8048c6044"
-            },
-            "require": {
-                "granam/exception-hierarchy": "dev-master",
-                "granam/strict-object": "dev-master",
-                "granam/strict-scalar": "dev-master",
-                "php": ">=5.5.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "0.9.*",
-                "phpunit/phpunit": "~4.4"
-            },
-            "type": "project",
-            "autoload": {
-                "psr-4": {
-                    "Granam\\": "Granam/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jaroslav Týc",
-                    "homepage": "http://jaroslavtyc.com",
-                    "role": "Original author"
-                }
-            ],
-            "description": "Lightweight string container with strict checks",
-            "homepage": "https://github.com/jaroslavtyc/granam-strict-string",
-            "keywords": [
-                "php",
-                "strict",
-                "string"
-            ],
-            "time": "2015-02-11 12:34:05"
         },
         {
             "name": "jaroslavtyc/doctrineum-generic",
@@ -1688,7 +1645,6 @@
     "stability-flags": {
         "jaroslavtyc/doctrineum-generic": 20,
         "granam/strict-object": 20,
-        "granam/strict-string": 20,
         "granam/strict-scalar": 20,
         "granam/exception-hierarchy": 20
     },

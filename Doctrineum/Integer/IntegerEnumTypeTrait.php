@@ -2,7 +2,12 @@
 namespace Doctrineum\Integer;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrineum\Generic\EnumInterface;
 
+/**
+ * @method integer convertToDatabaseValue(EnumInterface $enumValue, AbstractPlatform $platform)
+ * @see \Doctrineum\Generic\EnumType::convertToDatabaseValue
+ */
 trait IntegerEnumTypeTrait
 {
 
@@ -29,31 +34,6 @@ trait IntegerEnumTypeTrait
     public function getDefaultLength(AbstractPlatform $platform)
     {
         return 10;
-    }
-
-    /**
-     * Convert enum instance to database integer value
-     * @see \Doctrineum\Generic\EnumType::convertToDatabaseValue as overloaded parent
-     *
-     * @param IntegerEnum $enumValue
-     * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
-     * @throws Exceptions\UnexpectedValueToDatabaseValue
-     * @return integer
-     */
-    public function convertToDatabaseValue($enumValue, AbstractPlatform $platform)
-    {
-        if (!is_object($enumValue)) {
-            throw new Exceptions\UnexpectedValueToDatabaseValue(
-                'Expected object of class ' . IntegerEnum::class . ', got ' . gettype($enumValue)
-            );
-        }
-        if (!is_a($enumValue, IntegerEnum::class)) {
-            throw new Exceptions\UnexpectedValueToDatabaseValue(
-                'Expected ' . IntegerEnum::class . ', got ' . get_class($enumValue)
-            );
-        }
-
-        return $enumValue->getEnumValue();
     }
 
     /**

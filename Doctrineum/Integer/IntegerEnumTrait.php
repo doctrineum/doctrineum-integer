@@ -1,14 +1,8 @@
 <?php
 namespace Doctrineum\Integer;
 
-use Granam\Strict\String\StrictStringTrait;
-
 trait IntegerEnumTrait
 {
-    /** Adopting convertToString method
-     * @see StrictStringTrait::convertToString
-     */
-    use StrictStringTrait;
 
     /**
      * @param mixed $value
@@ -21,7 +15,7 @@ trait IntegerEnumTrait
             return $value;
         }
 
-        $stringValue = trim($this->convertToString($value, false /* not strict */));
+        $stringValue = trim($this->convertToString($value));
         $integerValue = intval($stringValue);
         if ((string)$integerValue === $stringValue) { // the cast has been lossless
             return $integerValue;
@@ -31,12 +25,21 @@ trait IntegerEnumTrait
     }
 
     /**
+     * @param mixed $value
+     * @throws Exceptions\UnexpectedValueToEnum
      * @return string
      */
-    public function __toString()
+    protected function convertToString($value)
     {
-        /** @var \Doctrineum\Generic\Enum $this */
-        return (string)$this->enumValue;
+        if (is_string($value)) {
+            return $value;
+        }
+
+        if (is_scalar($value) || is_null($value) || (is_object($value) && method_exists($value, '__toString'))) {
+            return (string)$value;
+        }
+
+        throw new Exceptions\UnexpectedValueToEnum('Expected scalar or to string convertible object, got ' . gettype($value));
     }
 
 }

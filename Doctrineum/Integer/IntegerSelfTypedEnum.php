@@ -45,4 +45,15 @@ class IntegerSelfTypedEnum extends SelfTypedEnum
 
         return $selfTypedEnum;
     }
+
+    /**
+     * Core idea of self-typed enum.
+     * As an enum class returns itself.
+     *
+     * @return string
+     */
+    protected static function getEnumClass()
+    {
+        return static::class;
+    }
 }

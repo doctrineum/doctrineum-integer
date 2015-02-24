@@ -3,7 +3,7 @@ namespace Doctrineum\Tests\Integer;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
-use Doctrineum\Integer\IntegerEnum;
+use Doctrineum\Generic\EnumInterface;
 
 trait IntegerEnumTypeTestTrait
 {
@@ -66,11 +66,11 @@ trait IntegerEnumTypeTestTrait
     {
         $enumTypeClass = $this->getEnumTypeClass();
         $enumType = $enumTypeClass::getType($enumTypeClass::getTypeName());
-        $enum = \Mockery::mock(IntegerEnum::class);
+        $enum = \Mockery::mock(EnumInterface::class);
         $enum->shouldReceive('getEnumValue')
             ->once()
             ->andReturn($value = 12345);
-        /** @var IntegerEnum $enum */
+        /** @var EnumInterface $enum */
         /** @var \PHPUnit_Framework_TestCase|IntegerEnumTypeTestTrait $this */
         $this->assertSame($value, $enumType->convertToDatabaseValue($enum, $this->getAbstractPlatform()));
         \Mockery::close();
@@ -85,7 +85,7 @@ trait IntegerEnumTypeTestTrait
         $enumType = $enumTypeClass::getType($enumTypeClass::getTypeName());
         $enum = $enumType->convertToPHPValue($integer = 12345, $this->getAbstractPlatform());
         /** @var \PHPUnit_Framework_TestCase $this */
-        $this->assertInstanceOf(IntegerEnum::class, $enum);
+        $this->assertInstanceOf(EnumInterface::class, $enum);
         $this->assertSame($integer, $enum->getEnumValue());
         $this->assertSame("$integer", (string)$enum);
     }
