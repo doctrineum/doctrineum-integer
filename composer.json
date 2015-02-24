@@ -28,7 +28,6 @@
         "php": ">=5.5",
         "jaroslavtyc/doctrineum-generic": "dev-master",
         "granam/strict-object": "dev-master",
-        "granam/strict-scalar": "dev-master",
         "granam/exception-hierarchy": "dev-master"
     },
     "require-dev": {

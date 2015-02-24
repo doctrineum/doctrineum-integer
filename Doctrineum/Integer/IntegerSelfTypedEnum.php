@@ -34,14 +34,8 @@ class IntegerSelfTypedEnum extends SelfTypedEnum
      */
     protected static function createByValue($enumValue)
     {
-        try {
-            $selfTypedEnum = static::getType(static::getTypeName());
-            $selfTypedEnum->enumValue = $selfTypedEnum->convertToInteger($enumValue);
-        } /** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */ catch (\Granam\Strict\String\Exceptions\Exception $exception) {
-            throw new Exceptions\UnexpectedValueToEnum(
-                'Expecting integer value only, got ' . gettype($enumValue), $exception->getCode(), $exception
-            );
-        }
+        $selfTypedEnum = static::getType(static::getTypeName());
+        $selfTypedEnum->enumValue = $selfTypedEnum->convertToInteger($enumValue);
 
         return $selfTypedEnum;
     }

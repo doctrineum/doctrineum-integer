@@ -1,7 +1,8 @@
 <?php
 namespace Doctrineum\Integer\Exceptions;
 
-class UnexpectedValueToDatabaseValueTest extends \PHPUnit_Framework_TestCase {
+class UnexpectedValueToDatabaseValueTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * @test
