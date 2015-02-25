@@ -4,11 +4,11 @@ namespace Doctrineum\Integer;
 use Doctrineum\Generic\SelfTypedEnum;
 
 /**
- * @method static IntegerSelfTypedEnum getType($name),
+ * @method static SelfTypedIntegerEnum getType($name),
  * @see SelfTypedEnum::getType or the origin
  * @see Type::getType
  */
-class IntegerSelfTypedEnum extends SelfTypedEnum
+class SelfTypedIntegerEnum extends SelfTypedEnum
 {
     use IntegerEnumTrait;
     use IntegerEnumTypeTrait;
@@ -18,7 +18,7 @@ class IntegerSelfTypedEnum extends SelfTypedEnum
      *
      * @param string $enumValue
      * @param string $namespace
-     * @return IntegerSelfTypedEnum
+     * @return SelfTypedIntegerEnum
      */
     public static function getEnum($enumValue, $namespace = __CLASS__)
     {
@@ -30,7 +30,7 @@ class IntegerSelfTypedEnum extends SelfTypedEnum
      * @see Type::getType
      *
      * @param mixed $enumValue
-     * @return IntegerSelfTypedEnum
+     * @return SelfTypedIntegerEnum
      */
     protected static function createByValue($enumValue)
     {

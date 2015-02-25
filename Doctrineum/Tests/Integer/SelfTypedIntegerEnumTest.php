@@ -3,7 +3,7 @@ namespace Doctrineum\Integer;
 
 use Doctrineum\Tests\Integer\IntegerEnumTypeTestTrait;
 
-class IntegerSelfTypedEnumTest extends IntegerEnumTest
+class SelfTypedIntegerEnumTest extends IntegerEnumTest
 {
 
     use IntegerEnumTypeTestTrait;
