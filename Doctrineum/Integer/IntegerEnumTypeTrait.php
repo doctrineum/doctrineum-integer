@@ -71,6 +71,6 @@ trait IntegerEnumTypeTrait
      */
     public static function getTypeName()
     {
-        return 'integer-enum';
+        return 'integer_enum';
     }
 }
