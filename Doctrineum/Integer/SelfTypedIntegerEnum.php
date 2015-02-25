@@ -50,4 +50,9 @@ class SelfTypedIntegerEnum extends SelfTypedEnum
     {
         return static::class;
     }
+
+    public static function getTypeName()
+    {
+        return 'self_typed_integer_enum';
+    }
 }
