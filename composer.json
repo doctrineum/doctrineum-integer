@@ -17,10 +17,6 @@
         },
         {
             "type": "vcs",
-            "url": "/home/jaroslav/Dropbox/Projects/granam/strict-scalar"
-        },
-        {
-            "type": "vcs",
             "url": "/home/jaroslav/Dropbox/Projects/granam/exception-hierarchy"
         }
     ],
