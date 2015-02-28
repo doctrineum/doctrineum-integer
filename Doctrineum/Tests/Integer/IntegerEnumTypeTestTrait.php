@@ -8,7 +8,7 @@ use Doctrineum\Generic\EnumInterface;
 trait IntegerEnumTypeTestTrait
 {
     /**
-     * @return \Doctrineum\Integer\IntegerEnumType|\Doctrineum\Integer\IntegerSelfTypedEnum
+     * @return \Doctrineum\Integer\IntegerEnumType|\Doctrineum\Integer\SelfTypedIntegerEnum
      */
     protected function getEnumTypeClass()
     {
@@ -38,6 +38,17 @@ trait IntegerEnumTypeTestTrait
     {
         $enumTypeClass = $this->getEnumTypeClass();
         return $enumTypeClass::getType($enumTypeClass::getTypeName());
+    }
+
+    /** @test */
+    public function type_name_is_as_expected()
+    {
+        $enumTypeClass = $this->getEnumTypeClass();
+        /** @var \PHPUnit_Framework_TestCase|IntegerEnumTypeTestTrait $this */
+        $this->assertSame('integer_enum', $enumTypeClass::getTypeName());
+        $this->assertSame('integer_enum', $enumTypeClass::INTEGER_ENUM);
+        $enumType = $enumTypeClass::getType($enumTypeClass::getTypeName());
+        $this->assertSame($enumType::getTypeName(), $enumTypeClass::getTypeName());
     }
 
     /** @test */
