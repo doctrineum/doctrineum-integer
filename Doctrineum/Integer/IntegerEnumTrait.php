@@ -9,13 +9,13 @@ trait IntegerEnumTrait
      * @return int
      * @throws Exceptions\UnexpectedValueToEnum
      */
-    protected function convertToInteger($value)
+    protected static function convertToInteger($value)
     {
         if (is_int($value)) {
             return $value;
         }
 
-        $stringValue = trim($this->convertToString($value));
+        $stringValue = trim(static::convertToString($value));
         $integerValue = intval($stringValue);
         if ((string)$integerValue === $stringValue) { // the cast has been lossless
             return $integerValue;
@@ -29,7 +29,7 @@ trait IntegerEnumTrait
      * @throws Exceptions\UnexpectedValueToEnum
      * @return string
      */
-    protected function convertToString($value)
+    protected static function convertToString($value)
     {
         if (is_string($value)) {
             return $value;

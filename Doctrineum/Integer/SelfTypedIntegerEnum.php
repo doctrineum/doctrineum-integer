@@ -14,18 +14,6 @@ class SelfTypedIntegerEnum extends SelfTypedEnum
     use IntegerEnumTypeTrait;
 
     /**
-     * Using own namespace to avoid conflicts with other enums
-     *
-     * @param string $enumValue
-     * @param string $namespace
-     * @return SelfTypedIntegerEnum
-     */
-    public static function getEnum($enumValue, $namespace = __CLASS__)
-    {
-        return parent::getEnum($enumValue, $namespace);
-    }
-
-    /**
      * Type has private constructor, the only way how to create an Enum, which is also Type, is by Type factory method,
      * @see Type::getType
      *
@@ -34,25 +22,12 @@ class SelfTypedIntegerEnum extends SelfTypedEnum
      */
     protected static function createByValue($enumValue)
     {
-        $selfTypedEnum = static::getType(static::getTypeName());
-        $selfTypedEnum->enumValue = $selfTypedEnum->convertToInteger($enumValue);
+        // is casted first to find out wrong format before instance creation and REGISTRATION
+        $integerEnumValue = static::convertToInteger($enumValue);
+
+        $selfTypedEnum = parent::createByValue($enumValue);
+        $selfTypedEnum->enumValue = $integerEnumValue;
 
         return $selfTypedEnum;
-    }
-
-    /**
-     * Core idea of self-typed enum.
-     * As an enum class returns itself.
-     *
-     * @return string
-     */
-    protected static function getEnumClass()
-    {
-        return static::class;
-    }
-
-    public static function getTypeName()
-    {
-        return 'self_typed_integer_enum';
     }
 }
