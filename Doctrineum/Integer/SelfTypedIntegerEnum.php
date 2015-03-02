@@ -15,6 +15,7 @@ class SelfTypedIntegerEnum extends SelfTypedEnum
 
     /**
      * Type has private constructor, the only way how to create an Enum, which is also Type, is by Type factory method,
+     * @see SelfTypedEnum::createByValue and its usage of
      * @see Type::getType
      *
      * @param mixed $enumValue
@@ -22,11 +23,7 @@ class SelfTypedIntegerEnum extends SelfTypedEnum
      */
     protected static function createByValue($enumValue)
     {
-        // is casted first to find out wrong format before instance creation and REGISTRATION
-        $integerEnumValue = static::convertToInteger($enumValue);
-
-        $selfTypedEnum = parent::createByValue($enumValue);
-        $selfTypedEnum->enumValue = $integerEnumValue;
+        $selfTypedEnum = parent::createByValue(static::convertToInteger($enumValue));
 
         return $selfTypedEnum;
     }
