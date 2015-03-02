@@ -14,7 +14,7 @@ class LogicTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \Doctrineum\Generic\Exceptions\Logic
+     * @expectedException \Doctrineum\Scalar\Exceptions\Logic
      */
     public function extends_doctrineum_logic_interface()
     {

@@ -1,8 +1,8 @@
 <?php
 namespace Doctrineum\Tests\Integer;
 
-use Doctrineum\Generic\EnumInterface;
-use Doctrineum\Tests\Generic\WithToStringTestObject;
+use Doctrineum\Scalar\EnumInterface;
+use Doctrineum\Tests\Scalar\WithToStringTestObject;
 
 trait IntegerEnumTestTrait
 {
@@ -55,7 +55,7 @@ trait IntegerEnumTestTrait
 
     /**
      * @test
-     * @expectedException \Doctrineum\Generic\Exceptions\UnexpectedValueToEnum
+     * @expectedException \Doctrineum\Scalar\Exceptions\UnexpectedValueToEnum
      */
     public function float_cause_exception()
     {
@@ -65,7 +65,7 @@ trait IntegerEnumTestTrait
 
     /**
      * @test
-     * @expectedException \Doctrineum\Generic\Exceptions\UnexpectedValueToEnum
+     * @expectedException \Doctrineum\Scalar\Exceptions\UnexpectedValueToEnum
      */
     public function string_float_cause_exception()
     {
@@ -75,7 +75,7 @@ trait IntegerEnumTestTrait
 
     /**
      * @test
-     * @expectedException \Doctrineum\Generic\Exceptions\UnexpectedValueToEnum
+     * @expectedException \Doctrineum\Scalar\Exceptions\UnexpectedValueToEnum
      */
     public function string_with_partial_integer_cause_exception()
     {
@@ -98,7 +98,7 @@ trait IntegerEnumTestTrait
 
     /**
      * @test
-     * @expectedException \Doctrineum\Generic\Exceptions\UnexpectedValueToEnum
+     * @expectedException \Doctrineum\Scalar\Exceptions\UnexpectedValueToEnum
      */
     public function object_with_non_numeric_string_cause_exception_even_if_to_string_convertible()
     {

@@ -2,11 +2,11 @@
 namespace Doctrineum\Integer;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrineum\Generic\EnumInterface;
+use Doctrineum\Scalar\EnumInterface;
 
 /**
  * @method integer convertToDatabaseValue(EnumInterface $enumValue, AbstractPlatform $platform)
- * @see \Doctrineum\Generic\EnumType::convertToDatabaseValue
+ * @see \Doctrineum\Scalar\EnumType::convertToDatabaseValue
  */
 trait IntegerEnumTypeTrait
 {
@@ -19,7 +19,11 @@ trait IntegerEnumTypeTrait
      *
      * @return string
      */
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    public function getSQLDeclaration(
+        /** @noinspection PhpUnusedParameterInspection */
+        array $fieldDeclaration,
+        AbstractPlatform $platform
+    )
     {
         return 'INTEGER';
     }
@@ -31,13 +35,16 @@ trait IntegerEnumTypeTrait
      * @param AbstractPlatform $platform
      * @return int
      */
-    public function getDefaultLength(AbstractPlatform $platform)
+    public function getDefaultLength(
+        /** @noinspection PhpUnusedParameterInspection */
+        AbstractPlatform $platform
+    )
     {
         return 10;
     }
 
     /**
-     * @see \Doctrineum\Generic\EnumType::convertToPHPValue for usage
+     * @see \Doctrineum\Scalar\EnumType::convertToPHPValue for usage
      *
      * @param string $enumValue
      * @return IntegerEnum

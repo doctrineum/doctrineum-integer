@@ -1,7 +1,7 @@
 <?php
 namespace Doctrineum\Integer;
 
-use Doctrineum\Generic\SelfTypedEnum;
+use Doctrineum\Scalar\SelfTypedEnum;
 
 /**
  * @method static SelfTypedIntegerEnum getType($name),

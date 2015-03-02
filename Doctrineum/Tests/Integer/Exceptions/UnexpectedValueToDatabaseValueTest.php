@@ -6,7 +6,7 @@ class UnexpectedValueToDatabaseValueTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \Doctrineum\Generic\Exceptions\UnexpectedValueToDatabaseValue
+     * @expectedException \Doctrineum\Scalar\Exceptions\UnexpectedValueToDatabaseValue
      */
     public function is_doctrineum_similar_exception()
     {

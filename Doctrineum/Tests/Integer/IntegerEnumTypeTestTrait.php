@@ -3,7 +3,7 @@ namespace Doctrineum\Tests\Integer;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
-use Doctrineum\Generic\EnumInterface;
+use Doctrineum\Scalar\EnumInterface;
 
 trait IntegerEnumTypeTestTrait
 {

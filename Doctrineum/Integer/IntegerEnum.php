@@ -1,7 +1,7 @@
 <?php
 namespace Doctrineum\Integer;
 
-use Doctrineum\Generic\Enum;
+use Doctrineum\Scalar\Enum;
 
 class IntegerEnum extends Enum
 {

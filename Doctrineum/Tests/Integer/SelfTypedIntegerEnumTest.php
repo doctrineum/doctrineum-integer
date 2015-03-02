@@ -25,7 +25,7 @@ class SelfTypedIntegerEnumTest extends IntegerEnumTest
 
     /**
      * @test
-     * @expectedException \Doctrineum\Generic\Exceptions\SelfTypedEnumConstantNamespaceChanged
+     * @expectedException \Doctrineum\Scalar\Exceptions\SelfTypedEnumConstantNamespaceChanged
      */
     public function changing_enum_namespace_cause_exception()
     {

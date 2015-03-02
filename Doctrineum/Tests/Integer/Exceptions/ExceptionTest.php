@@ -14,7 +14,7 @@ class ExceptionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \Doctrineum\Generic\Exceptions\Exception
+     * @expectedException \Doctrineum\Scalar\Exceptions\Exception
      */
     public function extends_base_doctrineum_interface()
     {
