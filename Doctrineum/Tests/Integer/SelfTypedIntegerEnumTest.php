@@ -11,16 +11,24 @@ class SelfTypedIntegerEnumTest extends IntegerEnumTest
     /** @test */
     public function type_name_is_as_expected()
     {
-        $enumTypeClass = $this->getEnumTypeClass();
         /** @var \PHPUnit_Framework_TestCase|SelfTypedIntegerEnumTest $this */
-        $this->assertSame('self_typed_integer_enum', $enumTypeClass::getTypeName());
-        $enumType = $enumTypeClass::getType($enumTypeClass::getTypeName());
-        $this->assertSame($enumType::getTypeName(), $enumTypeClass::getTypeName());
+        $this->assertSame('self_typed_integer_enum', SelfTypedIntegerEnum::getTypeName());
+        $selfTypedIntegerEnum = SelfTypedIntegerEnum::getType(SelfTypedIntegerEnum::getTypeName());
+        $this->assertSame($selfTypedIntegerEnum::getTypeName(), SelfTypedIntegerEnum::getTypeName());
     }
 
     /** @test */
     public function any_enum_namespace_is_accepted()
     {
         $this->markTestSkipped('Self-typed integer enum does not support enum namespaces yet.');
+    }
+
+    /**
+     * @test
+     * @expectedException \Doctrineum\Generic\Exceptions\SelfTypedEnumConstantNamespaceChanged
+     */
+    public function changing_enum_namespace_cause_exception()
+    {
+        SelfTypedIntegerEnum::getEnum('foo', 'non-default-namespace');
     }
 }
