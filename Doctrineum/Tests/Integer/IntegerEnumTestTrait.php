@@ -7,7 +7,7 @@ use Doctrineum\Tests\Generic\WithToStringTestObject;
 trait IntegerEnumTestTrait
 {
     /**
-     * @return \Doctrineum\Integer\IntegerEnum|\Doctrineum\Integer\IntegerSelfTypedEnum
+     * @return \Doctrineum\Integer\IntegerEnum|\Doctrineum\Integer\SelfTypedIntegerEnum
      */
     protected function getEnumClass()
     {
@@ -124,6 +124,20 @@ trait IntegerEnumTestTrait
     {
         $enumClass = $this->getEnumClass();
         $enumClass::getEnum(null);
+    }
+
+    /** @test */
+    public function any_enum_namespace_is_accepted()
+    {
+        $enumClass = $this->getEnumClass();
+        $enum = $enumClass::getEnum($value = 12345, $namespace = 'bar');
+        /** @var \PHPUnit_Framework_TestCase $this */
+        $this->assertInstanceOf($enumClass, $enum);
+        $this->assertSame($value, $enum->getEnumValue());
+        $this->assertSame("$value", (string)$enum);
+        $inDifferentNamespace = $enumClass::getEnum($value, $namespace . 'baz');
+        $this->assertInstanceOf($enumClass, $inDifferentNamespace);
+        $this->assertNotSame($enum, $inDifferentNamespace);
     }
 }
 

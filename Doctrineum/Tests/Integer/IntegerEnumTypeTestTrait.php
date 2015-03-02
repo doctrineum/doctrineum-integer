@@ -71,6 +71,14 @@ trait IntegerEnumTypeTestTrait
     }
 
     /**
+     * @return AbstractPlatform
+     */
+    private function getAbstractPlatform()
+    {
+        return \Mockery::mock(AbstractPlatform::class);
+    }
+
+    /**
      * @test
      */
     public function enum_as_database_value_is_integer_value_of_that_enum()
@@ -223,11 +231,4 @@ trait IntegerEnumTypeTestTrait
         }, $this->getAbstractPlatform());
     }
 
-    /**
-     * @return AbstractPlatform
-     */
-    private function getAbstractPlatform()
-    {
-        return \Mockery::mock(AbstractPlatform::class);
-    }
 }

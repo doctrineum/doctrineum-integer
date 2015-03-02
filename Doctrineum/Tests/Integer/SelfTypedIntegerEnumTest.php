@@ -17,4 +17,10 @@ class SelfTypedIntegerEnumTest extends IntegerEnumTest
         $enumType = $enumTypeClass::getType($enumTypeClass::getTypeName());
         $this->assertSame($enumType::getTypeName(), $enumTypeClass::getTypeName());
     }
+
+    /** @test */
+    public function any_enum_namespace_is_accepted()
+    {
+        $this->markTestSkipped('Self-typed integer enum does not support enum namespaces yet.');
+    }
 }
