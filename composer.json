@@ -1,5 +1,5 @@
 {
-    "name": "jaroslavtyc/doctrineum-integer",
+    "name": "doctrineum/integer",
     "type": "library",
     "description": "Enumeration type for Doctrine - integers only",
     "license": "MIT",
@@ -13,7 +13,7 @@
         },
         {
             "type": "vcs",
-            "url": "/home/jaroslav/Dropbox/Projects/doctrineum/generic"
+            "url": "/home/jaroslav/Dropbox/Projects/doctrineum/scalar"
         },
         {
             "type": "vcs",
@@ -22,7 +22,7 @@
     ],
     "require": {
         "php": ">=5.5",
-        "jaroslavtyc/doctrineum-generic": "dev-master",
+        "doctrineum/scalar": "dev-master",
         "granam/strict-object": "dev-master",
         "granam/exception-hierarchy": "dev-master"
     },
