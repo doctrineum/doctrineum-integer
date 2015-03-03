@@ -11,7 +11,7 @@ use Doctrineum\Scalar\EnumType;
  */
 class IntegerEnumType extends EnumType
 {
-    const INTEGER_ENUM = 'integer_enum';
-
     use IntegerEnumTypeTrait;
+
+    const INTEGER_ENUM = 'integer_enum';
 }

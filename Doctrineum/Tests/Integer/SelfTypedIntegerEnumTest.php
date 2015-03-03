@@ -1,11 +1,13 @@
 <?php
 namespace Doctrineum\Integer;
 
+use Doctrineum\Tests\Integer\IntegerEnumTestTrait;
 use Doctrineum\Tests\Integer\IntegerEnumTypeTestTrait;
 
-class SelfTypedIntegerEnumTest extends IntegerEnumTest
+class SelfTypedIntegerEnumTest extends \PHPUnit_Framework_TestCase
 {
 
+    use IntegerEnumTestTrait;
     use IntegerEnumTypeTestTrait;
 
     /** @test */
@@ -13,6 +15,7 @@ class SelfTypedIntegerEnumTest extends IntegerEnumTest
     {
         /** @var \PHPUnit_Framework_TestCase|SelfTypedIntegerEnumTest $this */
         $this->assertSame('self_typed_integer_enum', SelfTypedIntegerEnum::getTypeName());
+        $this->assertSame('self_typed_integer_enum', SelfTypedIntegerEnum::SELF_TYPED_INTEGER_ENUM);
         $selfTypedIntegerEnum = SelfTypedIntegerEnum::getType(SelfTypedIntegerEnum::getTypeName());
         $this->assertSame($selfTypedIntegerEnum::getTypeName(), SelfTypedIntegerEnum::getTypeName());
     }

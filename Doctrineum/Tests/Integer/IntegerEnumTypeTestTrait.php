@@ -3,6 +3,7 @@ namespace Doctrineum\Tests\Integer;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
+use Doctrineum\Integer\IntegerEnumType;
 use Doctrineum\Scalar\EnumInterface;
 
 trait IntegerEnumTypeTestTrait
@@ -13,6 +14,14 @@ trait IntegerEnumTypeTestTrait
     protected function getEnumTypeClass()
     {
         return preg_replace('~Test$~', '', static::class);
+    }
+
+    /**
+     * @return \Doctrineum\Integer\IntegerEnum|\Doctrineum\Integer\SelfTypedIntegerEnum
+     */
+    protected function getRegisteredEnumClass()
+    {
+        return preg_replace('~(Type)?Test$~', '', static::class);
     }
 
     protected function setUp()
@@ -43,12 +52,11 @@ trait IntegerEnumTypeTestTrait
     /** @test */
     public function type_name_is_as_expected()
     {
-        $enumTypeClass = $this->getEnumTypeClass();
-        /** @var \PHPUnit_Framework_TestCase|IntegerEnumTypeTestTrait $this */
-        $this->assertSame('integer_enum', $enumTypeClass::getTypeName());
-        $this->assertSame('integer_enum', $enumTypeClass::INTEGER_ENUM);
-        $enumType = $enumTypeClass::getType($enumTypeClass::getTypeName());
-        $this->assertSame($enumType::getTypeName(), $enumTypeClass::getTypeName());
+        /** @var \PHPUnit_Framework_TestCase $this */
+        $this->assertSame('integer_enum', IntegerEnumType::getTypeName());
+        $this->assertSame('integer_enum', IntegerEnumType::INTEGER_ENUM);
+        $enumType = IntegerEnumType::getType(IntegerEnumType::getTypeName());
+        $this->assertSame($enumType::getTypeName(), IntegerEnumType::getTypeName());
     }
 
     /** @test */
@@ -103,8 +111,8 @@ trait IntegerEnumTypeTestTrait
         $enumTypeClass = $this->getEnumTypeClass();
         $enumType = $enumTypeClass::getType($enumTypeClass::getTypeName());
         $enum = $enumType->convertToPHPValue($integer = 12345, $this->getAbstractPlatform());
-        /** @var \PHPUnit_Framework_TestCase $this */
-        $this->assertInstanceOf(EnumInterface::class, $enum);
+        /** @var \PHPUnit_Framework_TestCase|IntegerEnumTypeTestTrait $this */
+        $this->assertInstanceOf($this->getRegisteredEnumClass(), $enum);
         $this->assertSame($integer, $enum->getEnumValue());
         $this->assertSame("$integer", (string)$enum);
     }
@@ -117,7 +125,11 @@ trait IntegerEnumTypeTestTrait
     {
         $enumTypeClass = $this->getEnumTypeClass();
         $enumType = $enumTypeClass::getType($enumTypeClass::getTypeName());
-        $enumType->convertToPHPValue('12345', $this->getAbstractPlatform());
+        $enum = $enumType->convertToPHPValue($stringInteger = '12345', $this->getAbstractPlatform());
+        /** @var \PHPUnit_Framework_TestCase|IntegerEnumTypeTestTrait $this */
+        $this->assertInstanceOf($this->getRegisteredEnumClass(), $enum);
+        $this->assertSame($stringInteger, $enum->getEnumValue());
+        $this->assertSame($stringInteger, (string)$enum);
     }
 
     /**

@@ -5,41 +5,48 @@ trait IntegerEnumTrait
 {
 
     /**
-     * @param mixed $value
+     * @param mixed $enumValue
      * @return int
-     * @throws Exceptions\UnexpectedValueToEnum
      */
-    protected static function convertToInteger($value)
+    protected static function convertToEnumFinalValue($enumValue)
     {
-        if (is_int($value)) {
-            return $value;
+        return static::convertToInteger($enumValue);
+    }
+
+    /**
+     * @param mixed $enumValue
+     * @return int
+     */
+    protected static function convertToInteger($enumValue)
+    {
+        if (is_int($enumValue)) {
+            return $enumValue;
         }
 
-        $stringValue = trim(static::convertToString($value));
+        $stringValue = trim(static::convertToString($enumValue));
         $integerValue = intval($stringValue);
         if ((string)$integerValue === $stringValue) { // the cast has been lossless
             return $integerValue;
         }
 
-        throw new Exceptions\UnexpectedValueToEnum('Expecting integer value only, got ' . var_export($value, true));
+        throw new Exceptions\UnexpectedValueToEnum('Expecting integer value only, got ' . var_export($enumValue, true));
     }
 
     /**
-     * @param mixed $value
-     * @throws Exceptions\UnexpectedValueToEnum
+     * @param mixed $enumValue
      * @return string
      */
-    protected static function convertToString($value)
+    protected static function convertToString($enumValue)
     {
-        if (is_string($value)) {
-            return $value;
+        if (is_string($enumValue)) {
+            return $enumValue;
         }
 
-        if (is_scalar($value) || is_null($value) || (is_object($value) && method_exists($value, '__toString'))) {
-            return (string)$value;
+        if (is_scalar($enumValue) || is_null($enumValue) || (is_object($enumValue) && method_exists($enumValue, '__toString'))) {
+            return (string)$enumValue;
         }
 
-        throw new Exceptions\UnexpectedValueToEnum('Expected scalar or to string convertible object, got ' . gettype($value));
+        throw new Exceptions\UnexpectedValueToEnum('Expected scalar or to string convertible object, got ' . gettype($enumValue));
     }
 
 }
