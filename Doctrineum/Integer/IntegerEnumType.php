@@ -26,7 +26,14 @@ class IntegerEnumType extends EnumType
     {
         if (!is_int($enumValue)) {
             throw new Exceptions\UnexpectedValueToEnum(
-                'Unexpected value to convert. Expected integer, got ' . gettype($enumValue)
+                'Unexpected value to convert. Expected integer, got ' . gettype($enumValue) .
+                (is_scalar($enumValue) || is_null($enumValue)
+                    ? ' ' . var_export($enumValue, true)
+                    : (is_object($enumValue)
+                        ? ' ' . get_class($enumValue)
+                        : ''
+                    )
+                )
             );
         }
 
