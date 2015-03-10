@@ -25,6 +25,7 @@ class IntegerEnumType extends EnumType
     protected function convertToEnum($enumValue)
     {
         if (!is_int($enumValue)) {
+            /** @var mixed $enumValue */
             throw new Exceptions\UnexpectedValueToEnum(
                 'Unexpected value to convert. Expected integer, got ' . gettype($enumValue) .
                 (is_scalar($enumValue) || is_null($enumValue)
@@ -40,13 +41,5 @@ class IntegerEnumType extends EnumType
         $enumClass = static::getEnumClass($enumValue);
         /** @var IntegerEnum $enumClass */
         return $enumClass::getEnum($enumValue);
-    }
-
-    /**
-     * @return string
-     */
-    protected static function getDefaultEnumClass()
-    {
-        return IntegerEnum::class;
     }
 }
