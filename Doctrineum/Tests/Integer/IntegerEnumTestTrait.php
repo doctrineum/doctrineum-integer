@@ -1,6 +1,8 @@
 <?php
 namespace Doctrineum\Tests\Integer;
 
+use Doctrineum\Integer\IntegerEnum;
+use Doctrineum\Integer\SelfTypedIntegerEnum;
 use Doctrineum\Scalar\EnumInterface;
 use Doctrineum\Tests\Scalar\WithToStringTestObject;
 
@@ -127,17 +129,25 @@ trait IntegerEnumTestTrait
     }
 
     /** @test */
-    public function any_enum_namespace_is_accepted()
+    public function inherited_enum_with_same_value_lives_in_own_inner_namespace()
     {
         $enumClass = $this->getEnumClass();
-        $enum = $enumClass::getEnum($value = 12345, $namespace = 'bar');
-        /** @var \PHPUnit_Framework_TestCase $this */
+
+        $enum = $enumClass::getEnum($value = 12345);
+        /** @var \PHPUnit_Framework_TestCase|IntegerEnumTestTrait $this */
         $this->assertInstanceOf($enumClass, $enum);
         $this->assertSame($value, $enum->getEnumValue());
         $this->assertSame("$value", (string)$enum);
-        $inDifferentNamespace = $enumClass::getEnum($value, $namespace . 'baz');
+
+        $inDifferentNamespace = $this->getInheritedEnum($value);
         $this->assertInstanceOf($enumClass, $inDifferentNamespace);
+        $this->assertSame($enum->getEnumValue(), $inDifferentNamespace->getEnumValue());
         $this->assertNotSame($enum, $inDifferentNamespace);
     }
-}
 
+    /**
+     * @param $value
+     * @return IntegerEnum|SelfTypedIntegerEnum
+     */
+    abstract protected function getInheritedEnum($value);
+}

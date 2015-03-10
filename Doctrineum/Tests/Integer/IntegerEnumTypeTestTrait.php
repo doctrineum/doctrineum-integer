@@ -100,7 +100,6 @@ trait IntegerEnumTypeTestTrait
         /** @var EnumInterface $enum */
         /** @var \PHPUnit_Framework_TestCase|IntegerEnumTypeTestTrait $this */
         $this->assertSame($value, $enumType->convertToDatabaseValue($enum, $this->getAbstractPlatform()));
-        \Mockery::close();
     }
 
     /**

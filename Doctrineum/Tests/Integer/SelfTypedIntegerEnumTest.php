@@ -1,6 +1,7 @@
 <?php
 namespace Doctrineum\Integer;
 
+use Doctrine\DBAL\Types\Type;
 use Doctrineum\Tests\Integer\IntegerEnumTestTrait;
 use Doctrineum\Tests\Integer\IntegerEnumTypeTestTrait;
 
@@ -20,18 +21,19 @@ class SelfTypedIntegerEnumTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($selfTypedIntegerEnum::getTypeName(), SelfTypedIntegerEnum::getTypeName());
     }
 
-    /** @test */
-    public function any_enum_namespace_is_accepted()
+    protected function getInheritedEnum($value)
     {
-        $this->markTestSkipped('Self-typed integer enum does not support enum namespaces yet.');
-    }
+        if (!Type::hasType(TestInheritedSelfTypedIntegerEnum::getTypeName())) {
+            TestInheritedSelfTypedIntegerEnum::registerSelf();
+        }
+        $enum = TestInheritedSelfTypedIntegerEnum::getEnum($value);
 
-    /**
-     * @test
-     * @expectedException \Doctrineum\Scalar\Exceptions\SelfTypedEnumConstantNamespaceChanged
-     */
-    public function changing_enum_namespace_cause_exception()
-    {
-        SelfTypedIntegerEnum::getEnum('foo', 'non-default-namespace');
+        return $enum;
     }
+}
+
+/** inner */
+class TestInheritedSelfTypedIntegerEnum extends SelfTypedIntegerEnum
+{
+
 }

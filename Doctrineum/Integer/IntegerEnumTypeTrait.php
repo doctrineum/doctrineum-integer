@@ -42,31 +42,4 @@ trait IntegerEnumTypeTrait
     {
         return 10;
     }
-
-    /**
-     * @see \Doctrineum\Scalar\EnumType::convertToPHPValue for usage
-     *
-     * @param string $enumValue
-     * @return IntegerEnum
-     */
-    protected function convertToEnum($enumValue)
-    {
-        if (!is_int($enumValue)) {
-            throw new Exceptions\UnexpectedValueToEnum(
-                'Unexpected value to convert. Expected integer, got ' . gettype($enumValue)
-            );
-        }
-
-        $enumClass = static::getEnumClass();
-        /** @var IntegerEnum $enumClass */
-        return $enumClass::getEnum($enumValue);
-    }
-
-    /**
-     * @return string
-     */
-    protected static function getEnumClass()
-    {
-        return IntegerEnum::class;
-    }
 }
