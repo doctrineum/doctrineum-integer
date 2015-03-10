@@ -11,9 +11,25 @@ class SelfTypedIntegerEnumTest extends \PHPUnit_Framework_TestCase
     use IntegerEnumTestTrait;
     use IntegerEnumTypeTestTrait;
 
-    protected function getEnumTypeConstantName()
+    /**
+     * Overloaded parent test to test self-registration
+     *
+     * @test
+     */
+    public function can_be_registered()
     {
-        return SelfTypedIntegerEnum::SELF_TYPED_INTEGER_ENUM;
+        $enumTypeClass = $this->getEnumTypeClass();
+        $enumTypeClass::registerSelf();
+        $this->assertTrue(Type::hasType($enumTypeClass::getTypeName()));
+    }
+
+    /**
+     * @test
+     * @depends can_be_registered
+     */
+    public function repeated_self_registration_returns_false()
+    {
+        $this->assertFalse(SelfTypedIntegerEnum::registerSelf());
     }
 
     protected function getInheritedEnum($value)
