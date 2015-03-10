@@ -59,12 +59,34 @@ trait IntegerEnumTypeTestTrait
     /** @test */
     public function type_name_is_as_expected()
     {
-        /** @var \PHPUnit_Framework_TestCase $this */
-        $this->assertSame('integer_enum', IntegerEnumType::getTypeName());
-        $this->assertSame('integer_enum', IntegerEnumType::INTEGER_ENUM);
-        $enumType = IntegerEnumType::getType(IntegerEnumType::getTypeName());
-        $this->assertSame($enumType::getTypeName(), IntegerEnumType::getTypeName());
+        $enumTypeClass = $this->getEnumTypeClass();
+        /** @var \PHPUnit_Framework_TestCase|IntegerEnumTypeTestTrait $this */
+        $this->assertSame($enumTypeClass::getTypeName(), $this->getEnumTypeConstantName());
+        $this->assertSame($this->convertToTypeName($enumTypeClass), $this->getEnumTypeConstantName());
+        /** @var EnumType $enumType */
+        $enumType = Type::getType($enumTypeClass::getTypeName());
+        $this->assertSame($enumType::getTypeName(), $enumTypeClass::getTypeName());
     }
+
+    /**
+     * @param string $className
+     * @return string
+     */
+    private function convertToTypeName($className)
+    {
+        $withoutType = preg_replace('~Type$~', '', $className);
+        $parts = explode('\\', $withoutType);
+        $baseClassName = $parts[count($parts) -1];
+        preg_match_all('~(?<words>[A-Z][^A-Z]+)~', $baseClassName, $matches);
+        $concatenated = implode('_', $matches['words']);
+
+        return strtolower($concatenated);
+    }
+
+    /**
+     * @return string
+     */
+    abstract protected function getEnumTypeConstantName();
 
     /** @test */
     public function instance_can_be_obtained()
