@@ -41,6 +41,15 @@ class SelfTypedIntegerEnumTest extends \PHPUnit_Framework_TestCase
 
         return $enum;
     }
+
+    /**
+     * @return string
+     */
+    protected function getTestSubTypeEnumClass()
+    {
+        return TestInheritedSelfTypedIntegerEnum::class;
+    }
+
 }
 
 /** inner */
