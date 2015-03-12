@@ -47,7 +47,7 @@ class SelfTypedIntegerEnumTest extends \PHPUnit_Framework_TestCase
      */
     protected function getTestSubTypeEnumClass()
     {
-        return TestInheritedSelfTypedIntegerSubTypeEnum::class;
+        return TestSelfTypedIntegerSubTypeEnum::class;
     }
 
     /**
@@ -70,6 +70,11 @@ class SelfTypedIntegerEnumTest extends \PHPUnit_Framework_TestCase
 
 /** inner */
 class TestInheritedSelfTypedIntegerSubTypeEnum extends SelfTypedIntegerEnum
+{
+
+}
+
+class TestSelfTypedIntegerSubTypeEnum extends SelfTypedIntegerEnum
 {
 
 }

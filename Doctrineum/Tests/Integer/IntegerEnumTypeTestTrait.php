@@ -443,14 +443,6 @@ trait IntegerEnumTypeTestTrait
     }
 
     /**
-     * @return string
-     */
-    protected function getTestSubTypeEnumClass()
-    {
-        return TestSubTypeEnum::class;
-    }
-
-    /**
      * @test
      */
     public function can_register_another_enum_type()
@@ -510,6 +502,14 @@ trait IntegerEnumTypeTestTrait
     protected function getPlatform()
     {
         return \Mockery::mock(AbstractPlatform::class);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getTestSubTypeEnumClass()
+    {
+        return TestSubTypeEnum::class;
     }
 
     /**
