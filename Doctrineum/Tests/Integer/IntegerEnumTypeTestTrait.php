@@ -15,6 +15,7 @@ trait IntegerEnumTypeTestTrait
      */
     protected function getEnumTypeClass()
     {
+        // like IntegerEnumType
         return preg_replace('~Test$~', '', static::class);
     }
 
@@ -23,6 +24,7 @@ trait IntegerEnumTypeTestTrait
      */
     protected function getRegisteredEnumClass()
     {
+        // like IntegerEnum
         return preg_replace('~(Type)?Test$~', '', static::class);
     }
 
@@ -445,13 +447,103 @@ trait IntegerEnumTypeTestTrait
      */
     protected function getTestSubTypeEnumClass()
     {
-        return TestSubType::class;
+        return TestSubTypeEnum::class;
+    }
+
+    /**
+     * @test
+     */
+    public function can_register_another_enum_type()
+    {
+        /** @var IntegerEnumType $anotherEnumType */
+        $anotherEnumType = $this->getTestAnotherEnumTypeClass();
+        /** @var \PHPUnit_Framework_TestCase|IntegerEnumTypeTestTrait $this */
+        if (!$anotherEnumType::isRegistered()) {
+            $this->assertTrue($anotherEnumType::registerSelf());
+        } else {
+            $this->assertFalse($anotherEnumType::registerSelf());
+        }
+
+        $this->assertTrue($anotherEnumType::isRegistered());
+    }
+
+    /**
+     * @test
+     *
+     * @depends can_register_another_enum_type
+     */
+    public function different_types_with_same_subtype_regexp_distinguish_them()
+    {
+        $enumType = $this->getEnumTypeClass();
+        /** @var \PHPUnit_Framework_TestCase|IntegerEnumTypeTestTrait $this */
+        if ($enumType::hasSubTypeEnum($this->getTestSubTypeEnumClass())) {
+            $enumType::removeSubTypeEnum($this->getTestSubTypeEnumClass());
+        }
+        $enumType::addSubTypeEnum($this->getTestSubTypeEnumClass(), $regexp = '~[4-6]+~');
+
+        /** @var TestAnotherEnumType $anotherEnumType */
+        $anotherEnumType = $this->getTestAnotherEnumTypeClass();
+        if ($anotherEnumType::hasSubTypeEnum($this->getTestAnotherSubTypeEnumClass())) {
+            $anotherEnumType::removeSubTypeEnum($this->getTestAnotherSubTypeEnumClass());
+        }
+        // regexp is same, sub-type is not
+        $anotherEnumType::addSubTypeEnum($this->getTestAnotherSubTypeEnumClass(), $regexp);
+
+        $value = 345678;
+        $this->assertRegExp($regexp, "$value");
+
+        $enumType = $enumType::getIt();
+        $enumSubType = $enumType->convertToPHPValue($value, $this->getPlatform());
+        $this->assertInstanceOf($this->getTestSubTypeEnumClass(), $enumSubType);
+        $this->assertSame("$value", "$enumSubType");
+
+        $anotherEnumType = $anotherEnumType::getIt();
+        $anotherEnumSubType = $anotherEnumType->convertToPHPValue($value, $this->getPlatform());
+        $this->assertInstanceOf($this->getTestSubTypeEnumClass(), $enumSubType);
+        $this->assertSame("$value", "$anotherEnumSubType");
+
+        // registered sub-types were different, just regexp was the same - let's test if they are kept separately
+        $this->assertNotSame($enumSubType, $anotherEnumSubType);
+    }
+
+    /**
+     * @return AbstractPlatform
+     */
+    protected function getPlatform()
+    {
+        return \Mockery::mock(AbstractPlatform::class);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getTestAnotherSubTypeEnumClass()
+    {
+        return TestAnotherSubTypeEnum::class;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getTestAnotherEnumTypeClass()
+    {
+        return TestAnotherEnumType::class;
     }
 
 }
 
 /** inner */
-class TestSubType extends IntegerEnum
+class TestSubTypeEnum extends IntegerEnum
+{
+
+}
+
+class TestAnotherSubTypeEnum extends IntegerEnum
+{
+
+}
+
+class TestAnotherEnumType extends IntegerEnumType
 {
 
 }

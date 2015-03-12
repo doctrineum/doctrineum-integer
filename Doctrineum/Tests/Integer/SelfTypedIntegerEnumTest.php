@@ -34,10 +34,10 @@ class SelfTypedIntegerEnumTest extends \PHPUnit_Framework_TestCase
 
     protected function getInheritedEnum($value)
     {
-        if (!Type::hasType(TestInheritedSelfTypedIntegerEnum::getTypeName())) {
-            TestInheritedSelfTypedIntegerEnum::registerSelf();
+        if (!Type::hasType(TestInheritedSelfTypedIntegerSubTypeEnum::getTypeName())) {
+            TestInheritedSelfTypedIntegerSubTypeEnum::registerSelf();
         }
-        $enum = TestInheritedSelfTypedIntegerEnum::getEnum($value);
+        $enum = TestInheritedSelfTypedIntegerSubTypeEnum::getEnum($value);
 
         return $enum;
     }
@@ -47,13 +47,39 @@ class SelfTypedIntegerEnumTest extends \PHPUnit_Framework_TestCase
      */
     protected function getTestSubTypeEnumClass()
     {
-        return TestInheritedSelfTypedIntegerEnum::class;
+        return TestInheritedSelfTypedIntegerSubTypeEnum::class;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getTestAnotherSubTypeEnumClass()
+    {
+        return TestAnotherSelfTypedIntegerSubTypeEnum::class;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getTestAnotherEnumTypeClass()
+    {
+        return TestAnotherSelfTypedIntegerEnum::class;
     }
 
 }
 
 /** inner */
-class TestInheritedSelfTypedIntegerEnum extends SelfTypedIntegerEnum
+class TestInheritedSelfTypedIntegerSubTypeEnum extends SelfTypedIntegerEnum
+{
+
+}
+
+class TestAnotherSelfTypedIntegerSubTypeEnum extends SelfTypedIntegerEnum
+{
+
+}
+
+class TestAnotherSelfTypedIntegerEnum extends SelfTypedIntegerEnum
 {
 
 }
