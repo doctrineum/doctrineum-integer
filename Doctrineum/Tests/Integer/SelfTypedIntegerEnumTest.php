@@ -34,10 +34,10 @@ class SelfTypedIntegerEnumTest extends \PHPUnit_Framework_TestCase
 
     protected function getInheritedEnum($value)
     {
-        if (!Type::hasType(TestInheritedSelfTypedIntegerSubTypeEnum::getTypeName())) {
-            TestInheritedSelfTypedIntegerSubTypeEnum::registerSelf();
+        if (!Type::hasType(TestInheritedSelfTypedIntegerEnum::getTypeName())) {
+            TestInheritedSelfTypedIntegerEnum::registerSelf();
         }
-        $enum = TestInheritedSelfTypedIntegerSubTypeEnum::getEnum($value);
+        $enum = TestInheritedSelfTypedIntegerEnum::getEnum($value);
 
         return $enum;
     }
@@ -45,23 +45,23 @@ class SelfTypedIntegerEnumTest extends \PHPUnit_Framework_TestCase
     /**
      * @return string
      */
-    protected function getTestSubTypeEnumClass()
+    protected function getSubTypeEnumClass()
     {
-        return TestSelfTypedIntegerSubTypeEnum::class;
+        return TestSubTypeSelfTypedIntegerEnum::class;
     }
 
     /**
      * @return string
      */
-    protected function getTestAnotherSubTypeEnumClass()
+    protected function getAnotherSubTypeEnumClass()
     {
-        return TestAnotherSelfTypedIntegerSubTypeEnum::class;
+        return TestAnotherSubTypeSelfTypedIntegerEnum::class;
     }
 
     /**
      * @return string
      */
-    protected function getTestAnotherEnumTypeClass()
+    protected function getAnotherEnumTypeClass()
     {
         return TestAnotherSelfTypedIntegerEnum::class;
     }
@@ -69,17 +69,17 @@ class SelfTypedIntegerEnumTest extends \PHPUnit_Framework_TestCase
 }
 
 /** inner */
-class TestInheritedSelfTypedIntegerSubTypeEnum extends SelfTypedIntegerEnum
+class TestInheritedSelfTypedIntegerEnum extends SelfTypedIntegerEnum
 {
 
 }
 
-class TestSelfTypedIntegerSubTypeEnum extends SelfTypedIntegerEnum
+class TestSubTypeSelfTypedIntegerEnum extends SelfTypedIntegerEnum
 {
 
 }
 
-class TestAnotherSelfTypedIntegerSubTypeEnum extends SelfTypedIntegerEnum
+class TestAnotherSubTypeSelfTypedIntegerEnum extends SelfTypedIntegerEnum
 {
 
 }
