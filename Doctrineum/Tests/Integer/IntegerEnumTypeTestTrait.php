@@ -455,7 +455,6 @@ trait IntegerEnumTypeTestTrait
      */
     public function can_register_another_enum_type()
     {
-        /** @var IntegerEnumType $anotherEnumType */
         $anotherEnumType = $this->getTestAnotherEnumTypeClass();
         /** @var \PHPUnit_Framework_TestCase|IntegerEnumTypeTestTrait $this */
         if (!$anotherEnumType::isRegistered()) {
@@ -474,30 +473,29 @@ trait IntegerEnumTypeTestTrait
      */
     public function different_types_with_same_subtype_regexp_distinguish_them()
     {
-        $enumType = $this->getEnumTypeClass();
+        $enumTypeClass = $this->getEnumTypeClass();
         /** @var \PHPUnit_Framework_TestCase|IntegerEnumTypeTestTrait $this */
-        if ($enumType::hasSubTypeEnum($this->getTestSubTypeEnumClass())) {
-            $enumType::removeSubTypeEnum($this->getTestSubTypeEnumClass());
+        if ($enumTypeClass::hasSubTypeEnum($this->getTestSubTypeEnumClass())) {
+            $enumTypeClass::removeSubTypeEnum($this->getTestSubTypeEnumClass());
         }
-        $enumType::addSubTypeEnum($this->getTestSubTypeEnumClass(), $regexp = '~[4-6]+~');
+        $enumTypeClass::addSubTypeEnum($this->getTestSubTypeEnumClass(), $regexp = '~[4-6]+~');
 
-        /** @var TestAnotherEnumType $anotherEnumType */
-        $anotherEnumType = $this->getTestAnotherEnumTypeClass();
-        if ($anotherEnumType::hasSubTypeEnum($this->getTestAnotherSubTypeEnumClass())) {
-            $anotherEnumType::removeSubTypeEnum($this->getTestAnotherSubTypeEnumClass());
+        $anotherEnumTypeClass = $this->getTestAnotherEnumTypeClass();
+        if ($anotherEnumTypeClass::hasSubTypeEnum($this->getTestAnotherSubTypeEnumClass())) {
+            $anotherEnumTypeClass::removeSubTypeEnum($this->getTestAnotherSubTypeEnumClass());
         }
         // regexp is same, sub-type is not
-        $anotherEnumType::addSubTypeEnum($this->getTestAnotherSubTypeEnumClass(), $regexp);
+        $anotherEnumTypeClass::addSubTypeEnum($this->getTestAnotherSubTypeEnumClass(), $regexp);
 
         $value = 345678;
         $this->assertRegExp($regexp, "$value");
 
-        $enumType = $enumType::getIt();
+        $enumType = $enumTypeClass::getIt();
         $enumSubType = $enumType->convertToPHPValue($value, $this->getPlatform());
         $this->assertInstanceOf($this->getTestSubTypeEnumClass(), $enumSubType);
         $this->assertSame("$value", "$enumSubType");
 
-        $anotherEnumType = $anotherEnumType::getIt();
+        $anotherEnumType = $anotherEnumTypeClass::getIt();
         $anotherEnumSubType = $anotherEnumType->convertToPHPValue($value, $this->getPlatform());
         $this->assertInstanceOf($this->getTestSubTypeEnumClass(), $enumSubType);
         $this->assertSame("$value", "$anotherEnumSubType");
@@ -523,7 +521,7 @@ trait IntegerEnumTypeTestTrait
     }
 
     /**
-     * @return string
+     * @return IntegerEnumType|string
      */
     protected function getTestAnotherEnumTypeClass()
     {
