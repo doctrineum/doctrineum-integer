@@ -12,7 +12,7 @@ $integerEnum = IntegerEnum::getEnum(12345);
 // correct, string with integer is allowed
 $integerEnum = IntegerEnum::getEnum('12345');
 
-// correct - white charters are trimmed, the rest is pure integer
+// correct - white characters are trimmed, the rest is pure integer
 $integerEnum = IntegerEnum::getEnum('  12     ');
 
 // throws an exception - only integer number is allowed
