@@ -1,33 +1,33 @@
 {
-    "name": "doctrineum/integer",
-    "type": "library",
-    "description": "Enumeration type for Doctrine - integers only",
-    "license": "MIT",
-    "autoload": {
-        "psr-4": { "Doctrineum\\": "Doctrineum/" }
+  "name": "doctrineum/integer",
+  "type": "library",
+  "description": "Enumeration type for Doctrine - integers only",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {"Doctrineum\\": "Doctrineum/"}
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/jaroslavtyc/granam-strict-object"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "/home/jaroslav/Dropbox/Projects/granam/strict-object"
-        },
-        {
-            "type": "vcs",
-            "url": "/home/jaroslav/Dropbox/Projects/doctrineum/scalar"
-        },
-        {
-            "type": "vcs",
-            "url": "/home/jaroslav/Dropbox/Projects/granam/exception-hierarchy"
-        }
-    ],
-    "require": {
-        "php": ">=5.5",
-        "doctrineum/scalar": "dev-master",
-        "granam/strict-object": "dev-master",
-        "granam/exception-hierarchy": "dev-master"
+    {
+      "type": "vcs",
+      "url": "https://github.com/jaroslavtyc/doctrineum-scalar"
     },
-    "require-dev": {
-        "phpunit/phpunit": "~4.4",
-        "mockery/mockery": "0.9.*"
+    {
+      "type": "vcs",
+      "url": "https://github.com/jaroslavtyc/granam-exception-hierarchy"
     }
+  ],
+  "require": {
+    "php": ">=5.5",
+    "doctrineum/scalar": "dev-master",
+    "granam/strict-object": "dev-master",
+    "granam/exception-hierarchy": "dev-master"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.4",
+    "mockery/mockery": "0.9.*"
+  }
 }
