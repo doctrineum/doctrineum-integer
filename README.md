@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/jaroslavtyc/doctrineum-integer.svg?branch=master)](https://travis-ci.org/jaroslavtyc/doctrineum-integer)
+
+
 # About
 [Doctrine](http://www.doctrine-project.org/) [enum](http://en.wikipedia.org/wiki/Enumerated_type) allowing integers only.
 
