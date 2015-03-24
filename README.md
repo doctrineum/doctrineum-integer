@@ -6,26 +6,26 @@
 
 ### Example
 ```php
-$integerEnum = integerEnum::get(12345);
+$integerEnum = IntegerEnum::getEnum(12345);
 (int)(string)$integerEnum === $integerEnum->getValue() === 12345; // true
 
 // correct, string with integer is allowed
-$integerEnum = integerEnum::get('12345');
+$integerEnum = IntegerEnum::getEnum('12345');
 
 // correct - white charters are trimmed, the rest is pure integer
-$integerEnum = integerEnum::get('  12     ');
+$integerEnum = IntegerEnum::getEnum('  12     ');
 
 // throws an exception - only integer number is allowed
-$integerEnum = integerEnum::get(12.3);
+IntegerEnum::getEnum(12.3);
 
 // throws an exception - only integer number is allowed
-$integerEnum = integerEnum::get('12foo');
+IntegerEnum::getEnum('12foo');
 
 // throws an exception - again only integer number is allowed
-$integerEnum = integerEnum::get(null)
+IntegerEnum::getEnum(null)
 
 // throws an exception - again only integer number is allowed
-$integerEnum = integerEnum::get('');
+IntegerEnum::getEnum('');
 ```
 
 # Doctrine integration
