@@ -6,20 +6,6 @@
   "autoload": {
     "psr-4": {"Doctrineum\\": "Doctrineum/"}
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/jaroslavtyc/granam-strict-object"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/jaroslavtyc/doctrineum-scalar"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/jaroslavtyc/granam-exception-hierarchy"
-    }
-  ],
   "require": {
     "php": ">=5.5",
     "doctrineum/scalar": "dev-master",
