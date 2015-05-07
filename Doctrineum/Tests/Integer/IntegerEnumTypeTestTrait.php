@@ -115,6 +115,19 @@ trait IntegerEnumTypeTestTrait
     }
 
     /**
+     * @param EnumType $enumType
+     *
+     * @test
+     * @depends type_instance_can_be_obtained
+     */
+    public function sql_default_length_is_ten(EnumType $enumType)
+    {
+        $defaultLength = $enumType->getDefaultLength($this->getAbstractPlatform());
+        /** @var \PHPUnit_Framework_TestCase $this */
+        $this->assertSame(10, $defaultLength);
+    }
+
+    /**
      * @return AbstractPlatform
      */
     private function getAbstractPlatform()
