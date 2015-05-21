@@ -16,7 +16,7 @@ trait IntegerEnumTypeTestTrait
     protected function getEnumTypeClass()
     {
         // like IntegerEnumType
-        return preg_replace('~Test$~', '', static::class);
+        return preg_replace('~Test$~', '', get_called_class());
     }
 
     /**
@@ -25,7 +25,7 @@ trait IntegerEnumTypeTestTrait
     protected function getRegisteredEnumClass()
     {
         // like IntegerEnum
-        return preg_replace('~(Type)?Test$~', '', static::class);
+        return preg_replace('~(Type)?Test$~', '', get_called_class());
     }
 
     protected function tearDown()
@@ -132,7 +132,7 @@ trait IntegerEnumTypeTestTrait
      */
     private function getAbstractPlatform()
     {
-        return \Mockery::mock(AbstractPlatform::class);
+        return \Mockery::mock('Doctrine\DBAL\Platforms\AbstractPlatform');
     }
 
     /**
@@ -143,7 +143,7 @@ trait IntegerEnumTypeTestTrait
      */
     public function enum_as_database_value_is_integer_value_of_that_enum(EnumType $enumType)
     {
-        $enum = \Mockery::mock(EnumInterface::class);
+        $enum = \Mockery::mock('Doctrineum\Scalar\EnumInterface');
         $enum->shouldReceive('getEnumValue')
             ->once()
             ->andReturn($value = 12345);
@@ -361,7 +361,7 @@ trait IntegerEnumTypeTestTrait
          */
         $this->assertTrue($enumType::addSubTypeEnum($this->getSubTypeEnumClass(), $regexp = '~456~'));
         /** @var AbstractPlatform $abstractPlatform */
-        $abstractPlatform = \Mockery::mock(AbstractPlatform::class);
+        $abstractPlatform = \Mockery::mock('Doctrine\DBAL\Platforms\AbstractPlatform');
         $matchingValueToConvert = 123456789;
         $this->assertRegExp($regexp, "$matchingValueToConvert");
         /**
@@ -386,7 +386,7 @@ trait IntegerEnumTypeTestTrait
          */
         $this->assertTrue($enumType::addSubTypeEnum($this->getSubTypeEnumClass(), $regexp = '~456~'));
         /** @var AbstractPlatform $abstractPlatform */
-        $abstractPlatform = \Mockery::mock(AbstractPlatform::class);
+        $abstractPlatform = \Mockery::mock('Doctrine\DBAL\Platforms\AbstractPlatform');
         $nonMatchingValueToConvert = 99999999;
         $this->assertNotRegExp($regexp, "$nonMatchingValueToConvert");
         /**
@@ -395,7 +395,7 @@ trait IntegerEnumTypeTestTrait
          */
         $enum = $enumType->convertToPHPValue($nonMatchingValueToConvert, $abstractPlatform);
         $this->assertNotSame($nonMatchingValueToConvert, $enum);
-        $this->assertInstanceOf(EnumInterface::class, $enum);
+        $this->assertInstanceOf('Doctrineum\Scalar\EnumInterface', $enum);
         $this->assertSame("$nonMatchingValueToConvert", (string)$enum);
     }
 
@@ -438,7 +438,7 @@ trait IntegerEnumTypeTestTrait
     public function registering_subtype_class_without_proper_method_throws_exception(EnumType $enumType)
     {
         /** @var \PHPUnit_Framework_TestCase|IntegerEnumTypeTestTrait $this */
-        $enumType::addSubTypeEnum(\stdClass::class, '~foo~');
+        $enumType::addSubTypeEnum('stdClass', '~foo~');
     }
 
     /**
@@ -514,7 +514,7 @@ trait IntegerEnumTypeTestTrait
      */
     protected function getPlatform()
     {
-        return \Mockery::mock(AbstractPlatform::class);
+        return \Mockery::mock('Doctrine\DBAL\Platforms\AbstractPlatform');
     }
 
     /**
@@ -522,7 +522,7 @@ trait IntegerEnumTypeTestTrait
      */
     protected function getSubTypeEnumClass()
     {
-        return TestSubTypeIntegerEnum::class;
+        return 'Doctrineum\Tests\Integer\TestSubTypeIntegerEnum';
     }
 
     /**
@@ -530,7 +530,7 @@ trait IntegerEnumTypeTestTrait
      */
     protected function getAnotherSubTypeEnumClass()
     {
-        return TestAnotherSubTypeIntegerEnum::class;
+        return 'Doctrineum\Tests\Integer\TestAnotherSubTypeIntegerEnum';
     }
 
     /**
@@ -538,7 +538,7 @@ trait IntegerEnumTypeTestTrait
      */
     protected function getAnotherEnumTypeClass()
     {
-        return TestAnotherIntegerEnumType::class;
+        return 'Doctrineum\Tests\Integer\TestAnotherIntegerEnumType';
     }
 
 }

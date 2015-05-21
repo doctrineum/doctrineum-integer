@@ -3,7 +3,6 @@ namespace Doctrineum\Tests\Integer;
 
 use Doctrineum\Integer\IntegerEnum;
 use Doctrineum\Integer\SelfTypedIntegerEnum;
-use Doctrineum\Scalar\EnumInterface;
 use Doctrineum\Tests\Scalar\WithToStringTestObject;
 
 trait IntegerEnumTestTrait
@@ -13,7 +12,7 @@ trait IntegerEnumTestTrait
      */
     protected function getEnumClass()
     {
-        return preg_replace('~Test$~', '', static::class);
+        return preg_replace('~Test$~', '', get_called_class());
     }
 
     /** @test */
@@ -116,7 +115,7 @@ trait IntegerEnumTestTrait
         $enumClass = $this->getEnumClass();
         $enum = $enumClass::getEnum(new WithToStringTestObject($integer = 12345));
         /** @var \PHPUnit_Framework_TestCase $this */
-        $this->assertInstanceOf(EnumInterface::class, $enum);
+        $this->assertInstanceOf('Doctrineum\Scalar\EnumInterface', $enum);
         $this->assertSame($integer, $enum->getEnumValue());
         $this->assertSame("$integer", (string)$enum);
     }
