@@ -54,7 +54,6 @@ trait IntegerEnumTypeTestTrait
 
     /**
      * @test
-     * @depends can_be_registered
      */
     public function type_instance_can_be_obtained()
     {
