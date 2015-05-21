@@ -10,7 +10,7 @@ class UnexpectedValueToEnumTest extends \PHPUnit_Framework_TestCase
      */
     public function is_doctrineum_similar_exception()
     {
-        throw new UnexpectedValueToEnum();
+        throw new UnexpectedValueToConvert();
     }
 
     /**
@@ -19,7 +19,7 @@ class UnexpectedValueToEnumTest extends \PHPUnit_Framework_TestCase
      */
     public function is_local_logic_exception()
     {
-        throw new UnexpectedValueToEnum();
+        throw new UnexpectedValueToConvert();
     }
 
 }

@@ -2,6 +2,7 @@
 namespace Doctrineum\Integer;
 
 use Doctrineum\Scalar\SelfTypedEnum;
+use Granam\Strict\Scalar\Tools\ValueDescriber;
 
 /**
  * @method static SelfTypedIntegerEnum getType($name),
@@ -30,14 +31,12 @@ class SelfTypedIntegerEnum extends SelfTypedEnum
     protected function convertToEnum($enumValue)
     {
         if (!is_int($enumValue)) {
-            throw new Exceptions\UnexpectedValueToEnum(
-                'Unexpected value to convert. Expected integer, got ' . gettype($enumValue)
+            throw new Exceptions\UnexpectedValueToConvert(
+                'Unexpected value to convert. Expected integer, got ' . ValueDescriber::describe($enumValue)
             );
         }
 
-        $enumClass = static::getEnumClass($enumValue);
-        /** @var IntegerEnum $enumClass */
-        return $enumClass::getEnum($enumValue);
+        return parent::convertToEnum($enumValue);
     }
 
     /**

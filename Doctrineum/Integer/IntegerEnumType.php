@@ -2,6 +2,7 @@
 namespace Doctrineum\Integer;
 
 use Doctrineum\Scalar\EnumType;
+use Granam\Strict\Scalar\Tools\ValueDescriber;
 
 /**
  * Class EnumType
@@ -20,26 +21,18 @@ class IntegerEnumType extends EnumType
      * @see \Doctrineum\Scalar\EnumType::convertToPHPValue for usage
      *
      * @param string $enumValue
+     *
      * @return IntegerEnum
      */
     protected function convertToEnum($enumValue)
     {
         if (!is_int($enumValue)) {
             /** @var mixed $enumValue */
-            throw new Exceptions\UnexpectedValueToEnum(
-                'Unexpected value to convert. Expected integer, got ' . gettype($enumValue) .
-                (is_scalar($enumValue) || is_null($enumValue)
-                    ? ' ' . var_export($enumValue, true)
-                    : (is_object($enumValue)
-                        ? ' ' . get_class($enumValue)
-                        : ''
-                    )
-                )
+            throw new Exceptions\UnexpectedValueToConvert(
+                'Unexpected value to convert. Expected integer, got ' . ValueDescriber::describe($enumValue)
             );
         }
 
-        $enumClass = static::getEnumClass($enumValue);
-        /** @var IntegerEnum $enumClass */
-        return $enumClass::getEnum($enumValue);
+        return parent::convertToEnum($enumValue);
     }
 }

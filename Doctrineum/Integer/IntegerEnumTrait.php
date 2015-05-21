@@ -1,6 +1,8 @@
 <?php
 namespace Doctrineum\Integer;
 
+use Granam\Strict\Integer\StrictInteger;
+
 trait IntegerEnumTrait
 {
 
@@ -14,39 +16,17 @@ trait IntegerEnumTrait
     }
 
     /**
-     * @param mixed $enumValue
-     * @return int
+     * @param mixed $valueToConvert
+     * @return float
      */
-    protected static function convertToInteger($enumValue)
+    protected static function convertToInteger($valueToConvert)
     {
-        if (is_int($enumValue)) {
-            return $enumValue;
+        try {
+            return (new StrictInteger($valueToConvert, false /* not strict*/))->getValue();
+        } catch (\Granam\Strict\Integer\Exceptions\WrongParameterType $exception) {
+            // wrapping the exception by local one
+            throw new Exceptions\UnexpectedValueToConvert($exception->getMessage(), $exception->getCode(), $exception);
         }
-
-        $stringValue = trim(static::convertToString($enumValue));
-        $integerValue = intval($stringValue);
-        if ((string)$integerValue === $stringValue) { // the cast has been lossless
-            return $integerValue;
-        }
-
-        throw new Exceptions\UnexpectedValueToEnum('Expecting integer value only, got ' . var_export($enumValue, true));
-    }
-
-    /**
-     * @param mixed $enumValue
-     * @return string
-     */
-    protected static function convertToString($enumValue)
-    {
-        if (is_string($enumValue)) {
-            return $enumValue;
-        }
-
-        if (is_scalar($enumValue) || is_null($enumValue) || (is_object($enumValue) && method_exists($enumValue, '__toString'))) {
-            return (string)$enumValue;
-        }
-
-        throw new Exceptions\UnexpectedValueToEnum('Expected scalar or to string convertible object, got ' . gettype($enumValue));
     }
 
 }

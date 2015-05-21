@@ -176,7 +176,7 @@ trait IntegerEnumTypeTestTrait
      *
      * @test
      * @depends type_instance_can_be_obtained
-     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToEnum
+     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
     public function string_integer_to_php_value_causes_exception(EnumType $enumType)
     {
@@ -192,7 +192,7 @@ trait IntegerEnumTypeTestTrait
      *
      * @test
      * @depends type_instance_can_be_obtained
-     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToEnum
+     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
     public function null_to_php_value_causes_exception(EnumType $enumType)
     {
@@ -204,7 +204,7 @@ trait IntegerEnumTypeTestTrait
      *
      * @test
      * @depends type_instance_can_be_obtained
-     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToEnum
+     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
     public function empty_string_to_php_value_causes_exception(EnumType $enumType)
     {
@@ -216,7 +216,7 @@ trait IntegerEnumTypeTestTrait
      *
      * @test
      * @depends type_instance_can_be_obtained
-     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToEnum
+     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
     public function float_to_php_value_cause_exception(EnumType $enumType)
     {
@@ -228,7 +228,7 @@ trait IntegerEnumTypeTestTrait
      *
      * @test
      * @depends type_instance_can_be_obtained
-     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToEnum
+     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
     public function zero_float_to_php_value_cause_exception(EnumType $enumType)
     {
@@ -240,7 +240,7 @@ trait IntegerEnumTypeTestTrait
      *
      * @test
      * @depends type_instance_can_be_obtained
-     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToEnum
+     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
     public function false_to_php_value_cause_exception(EnumType $enumType)
     {
@@ -252,7 +252,7 @@ trait IntegerEnumTypeTestTrait
      *
      * @test
      * @depends type_instance_can_be_obtained
-     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToEnum
+     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
     public function true_to_php_value_cause_exception(EnumType $enumType)
     {
@@ -264,7 +264,7 @@ trait IntegerEnumTypeTestTrait
      *
      * @test
      * @depends type_instance_can_be_obtained
-     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToEnum
+     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
     public function array_to_php_value_cause_exception(EnumType $enumType)
     {
@@ -276,7 +276,7 @@ trait IntegerEnumTypeTestTrait
      *
      * @test
      * @depends type_instance_can_be_obtained
-     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToEnum
+     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
     public function resource_to_php_value_cause_exception(EnumType $enumType)
     {
@@ -288,7 +288,7 @@ trait IntegerEnumTypeTestTrait
      *
      * @test
      * @depends type_instance_can_be_obtained
-     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToEnum
+     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
     public function object_to_php_value_cause_exception(EnumType $enumType)
     {
@@ -300,7 +300,7 @@ trait IntegerEnumTypeTestTrait
      *
      * @test
      * @depends type_instance_can_be_obtained
-     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToEnum
+     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
     public function callback_to_php_value_cause_exception(EnumType $enumType)
     {

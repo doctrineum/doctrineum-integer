@@ -57,9 +57,20 @@ trait IntegerEnumTestTrait
 
     /**
      * @test
+     */
+    public function float_without_decimal_is_its_integer_value()
+    {
+        $enumClass = $this->getEnumClass();
+        $enum = $enumClass::getEnum(123.0);
+        /** @var \PHPUnit_Framework_TestCase $this */
+        $this->assertSame(123, $enum->getEnumValue());
+    }
+
+    /**
+     * @test
      * @expectedException \Doctrineum\Scalar\Exceptions\UnexpectedValueToEnum
      */
-    public function float_cause_exception()
+    public function float_with_decimal_cause_exception()
     {
         $enumClass = $this->getEnumClass();
         $enumClass::getEnum(12.345);
@@ -67,9 +78,20 @@ trait IntegerEnumTestTrait
 
     /**
      * @test
+     */
+    public function string_float_without_decimal_is_its_integer_value()
+    {
+        $enumClass = $this->getEnumClass();
+        $enum = $enumClass::getEnum('123.0');
+        /** @var \PHPUnit_Framework_TestCase $this */
+        $this->assertSame(123, $enum->getEnumValue());
+    }
+
+    /**
+     * @test
      * @expectedException \Doctrineum\Scalar\Exceptions\UnexpectedValueToEnum
      */
-    public function string_float_cause_exception()
+    public function string_float_with_decimal_cause_exception()
     {
         $enumClass = $this->getEnumClass();
         $enumClass::getEnum('12.345');
@@ -77,12 +99,13 @@ trait IntegerEnumTestTrait
 
     /**
      * @test
-     * @expectedException \Doctrineum\Scalar\Exceptions\UnexpectedValueToEnum
      */
-    public function string_with_partial_integer_cause_exception()
+    public function string_with_partial_integer_is_that_integer()
     {
         $enumClass = $this->getEnumClass();
-        $enumClass::getEnum('12foo');
+        $enum = $enumClass::getEnum('12foo');
+        /** @var \PHPUnit_Framework_TestCase $this */
+        $this->assertSame(12, $enum->getEnumValue());
     }
 
     /**
@@ -100,32 +123,35 @@ trait IntegerEnumTestTrait
 
     /**
      * @test
-     * @expectedException \Doctrineum\Scalar\Exceptions\UnexpectedValueToEnum
      */
-    public function object_with_non_numeric_string_cause_exception_even_if_to_string_convertible()
+    public function to_string_object_with_non_numeric_string_is_zero()
     {
         $enumClass = $this->getEnumClass();
-        $enumClass::getEnum(new WithToStringTestObject('foo'));
+        $enum = $enumClass::getEnum(new WithToStringTestObject('foo'));
+        /** @var \PHPUnit_Framework_TestCase $this */
+        $this->assertSame(0, $enum->getEnumValue());
     }
 
     /**
      * @test
-     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToEnum
      */
-    public function empty_string_cause_exception()
+    public function empty_string_is_zero()
     {
         $enumClass = $this->getEnumClass();
-        $enumClass::getEnum('');
+        $enum = $enumClass::getEnum('');
+        /** @var \PHPUnit_Framework_TestCase $this */
+        $this->assertSame(0, $enum->getEnumValue());
     }
 
     /**
      * @test
-     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToEnum
      */
-    public function non_integer_cause_exception()
+    public function null_is_zero()
     {
         $enumClass = $this->getEnumClass();
-        $enumClass::getEnum(null);
+        $enum = $enumClass::getEnum(null);
+        /** @var \PHPUnit_Framework_TestCase $this */
+        $this->assertSame(0, $enum->getEnumValue());
     }
 
     /** @test */
