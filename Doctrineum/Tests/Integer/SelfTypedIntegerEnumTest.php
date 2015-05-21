@@ -47,7 +47,7 @@ class SelfTypedIntegerEnumTest extends \PHPUnit_Framework_TestCase
      */
     protected function getSubTypeEnumClass()
     {
-        return TestSubTypeSelfTypedIntegerEnum::class;
+        return 'Doctrineum\Integer\TestSubTypeSelfTypedIntegerEnum';
     }
 
     /**
@@ -55,7 +55,7 @@ class SelfTypedIntegerEnumTest extends \PHPUnit_Framework_TestCase
      */
     protected function getAnotherSubTypeEnumClass()
     {
-        return TestAnotherSubTypeSelfTypedIntegerEnum::class;
+        return 'Doctrineum\Integer\TestAnotherSubTypeSelfTypedIntegerEnum';
     }
 
     /**
@@ -63,7 +63,7 @@ class SelfTypedIntegerEnumTest extends \PHPUnit_Framework_TestCase
      */
     protected function getAnotherEnumTypeClass()
     {
-        return TestAnotherSelfTypedIntegerEnum::class;
+        return 'Doctrineum\Integer\TestAnotherSelfTypedIntegerEnum';
     }
 
 }
