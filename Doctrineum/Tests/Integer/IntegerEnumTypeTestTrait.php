@@ -28,6 +28,12 @@ trait IntegerEnumTypeTestTrait
         return preg_replace('~(Type)?Test$~', '', get_called_class());
     }
 
+    protected function setUp()
+    {
+        $enumTypeClass = $this->getEnumTypeClass();
+        Type::addType($enumTypeClass::getTypeName(), $enumTypeClass);
+    }
+
     protected function tearDown()
     {
         \Mockery::close();
