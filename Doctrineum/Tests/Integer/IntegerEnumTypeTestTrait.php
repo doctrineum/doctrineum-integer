@@ -31,7 +31,9 @@ trait IntegerEnumTypeTestTrait
     protected function setUp()
     {
         $enumTypeClass = $this->getEnumTypeClass();
-        Type::addType($enumTypeClass::getTypeName(), $enumTypeClass);
+        if (!Type::hasType($enumTypeClass::getTypeName())) {
+            Type::addType($enumTypeClass::getTypeName(), $enumTypeClass);
+        }
     }
 
     protected function tearDown()
@@ -53,7 +55,9 @@ trait IntegerEnumTypeTestTrait
     public function can_be_registered()
     {
         $enumTypeClass = $this->getEnumTypeClass();
-        Type::addType($enumTypeClass::getTypeName(), $enumTypeClass);
+        if (!Type::hasType($enumTypeClass::getTypeName())) {
+            Type::addType($enumTypeClass::getTypeName(), $enumTypeClass);
+        }
         /** @var \PHPUnit_Framework_TestCase $this */
         $this->assertTrue(Type::hasType($enumTypeClass::getTypeName()));
     }
@@ -93,6 +97,7 @@ trait IntegerEnumTypeTestTrait
 
     /**
      * @param string $className
+     *
      * @return string
      */
     private function convertToTypeName($className)
@@ -319,6 +324,7 @@ trait IntegerEnumTypeTestTrait
 
     /**
      * @param EnumType $enumType
+     *
      * @return IntegerEnumType
      *
      * @test
