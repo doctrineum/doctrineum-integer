@@ -25,7 +25,6 @@ class SelfTypedIntegerEnumTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @depends can_be_registered
      */
     public function repeated_self_registration_returns_false()
     {
