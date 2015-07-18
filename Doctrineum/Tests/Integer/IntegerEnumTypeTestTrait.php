@@ -11,7 +11,7 @@ use Doctrineum\Scalar\EnumType;
 trait IntegerEnumTypeTestTrait
 {
     /**
-     * @return \Doctrineum\Integer\IntegerEnumType|\Doctrineum\Integer\SelfTypedIntegerEnum
+     * @return \Doctrineum\Integer\IntegerEnumType
      */
     protected function getEnumTypeClass()
     {
@@ -20,7 +20,7 @@ trait IntegerEnumTypeTestTrait
     }
 
     /**
-     * @return \Doctrineum\Integer\IntegerEnum|\Doctrineum\Integer\SelfTypedIntegerEnum
+     * @return \Doctrineum\Integer\IntegerEnum
      */
     protected function getRegisteredEnumClass()
     {
@@ -41,7 +41,7 @@ trait IntegerEnumTypeTestTrait
         \Mockery::close();
 
         $enumTypeClass = $this->getEnumTypeClass();
-        $enumType = Type::getType($enumTypeClass::getTypeName(), $enumTypeClass);
+        $enumType = Type::getType($enumTypeClass::getTypeName());
         /** @var EnumType $enumType */
         if ($enumType::hasSubTypeEnum($this->getSubTypeEnumClass())) {
             /** @var \PHPUnit_Framework_TestCase|IntegerEnumTypeTestTrait $this */
