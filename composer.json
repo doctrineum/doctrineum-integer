@@ -10,12 +10,12 @@
     "php": ">=5.5",
     "doctrineum/scalar": "dev-master",
     "granam/strict-object": "dev-master",
-    "granam/exception-hierarchy": "dev-master",
-    "granam/strict-integer": "dev-master",
-    "granam/strict-scalar": "dev-master"
+    "granam/strict-integer": "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.4",
     "mockery/mockery": "0.9.*"
-  }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }

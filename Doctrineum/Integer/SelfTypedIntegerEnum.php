@@ -2,7 +2,7 @@
 namespace Doctrineum\Integer;
 
 use Doctrineum\Scalar\SelfTypedEnum;
-use Granam\Strict\Scalar\Tools\ValueDescriber;
+use Granam\Scalar\Tools\ValueDescriber;
 
 /**
  * @method static SelfTypedIntegerEnum getType($name),

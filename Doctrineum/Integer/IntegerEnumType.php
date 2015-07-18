@@ -2,7 +2,7 @@
 namespace Doctrineum\Integer;
 
 use Doctrineum\Scalar\EnumType;
-use Granam\Strict\Scalar\Tools\ValueDescriber;
+use Granam\Scalar\Tools\ValueDescriber;
 
 /**
  * Class EnumType
