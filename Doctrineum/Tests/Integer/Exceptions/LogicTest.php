@@ -1,5 +1,7 @@
 <?php
-namespace Doctrineum\Integer\Exceptions;
+namespace Doctrineum\Tests\Integer\Exceptions;
+
+use Doctrineum\Integer\Exceptions\Logic;
 
 class LogicTest extends \PHPUnit_Framework_TestCase
 {
