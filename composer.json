@@ -10,7 +10,7 @@
     "php": ">=5.5",
     "granam/strict-object": "~1.1",
     "doctrineum/scalar": "~1.0",
-    "granam/integer": "~1.2"
+    "granam/integer": "~1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.4",
