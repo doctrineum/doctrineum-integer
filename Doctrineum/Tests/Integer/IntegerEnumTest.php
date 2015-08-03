@@ -15,12 +15,13 @@ class IntegerEnumTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
-    public function can_create_enum_instance()
+    public function I_can_create_integer_enum()
     {
         $enumClass = $this->getEnumClass();
         $instance = $enumClass::getEnum(12345);
         /** @var \PHPUnit_Framework_TestCase $this */
         $this->assertInstanceOf($enumClass, $instance);
+        $this->assertInstanceOf('Granam\Integer\IntegerInterface', $instance);
     }
 
     /** @test */
@@ -29,7 +30,7 @@ class IntegerEnumTest extends \PHPUnit_Framework_TestCase
         $enumClass = $this->getEnumClass();
         $enum = $enumClass::getEnum($integer = 12345);
         /** @var \PHPUnit_Framework_TestCase $this */
-        $this->assertSame($integer, $enum->getEnumValue());
+        $this->assertSame($integer, $enum->getValue());
         $this->assertSame("$integer", (string)$enum);
     }
 
@@ -39,7 +40,7 @@ class IntegerEnumTest extends \PHPUnit_Framework_TestCase
         $enumClass = $this->getEnumClass();
         $enum = $enumClass::getEnum($stringInteger = '12345');
         /** @var \PHPUnit_Framework_TestCase $this */
-        $this->assertSame(intval($stringInteger), $enum->getEnumValue());
+        $this->assertSame(intval($stringInteger), $enum->getValue());
         $this->assertSame($stringInteger, (string)$enum);
     }
 
@@ -49,7 +50,7 @@ class IntegerEnumTest extends \PHPUnit_Framework_TestCase
         $enumClass = $this->getEnumClass();
         $enum = $enumClass::getEnum('  12 ');
         /** @var \PHPUnit_Framework_TestCase $this */
-        $this->assertSame(12, $enum->getEnumValue());
+        $this->assertSame(12, $enum->getValue());
         $this->assertSame('12', (string)$enum);
     }
 
@@ -61,7 +62,7 @@ class IntegerEnumTest extends \PHPUnit_Framework_TestCase
         $enumClass = $this->getEnumClass();
         $enum = $enumClass::getEnum(123.0);
         /** @var \PHPUnit_Framework_TestCase $this */
-        $this->assertSame(123, $enum->getEnumValue());
+        $this->assertSame(123, $enum->getValue());
     }
 
     /**
@@ -82,7 +83,7 @@ class IntegerEnumTest extends \PHPUnit_Framework_TestCase
         $enumClass = $this->getEnumClass();
         $enum = $enumClass::getEnum('123.0');
         /** @var \PHPUnit_Framework_TestCase $this */
-        $this->assertSame(123, $enum->getEnumValue());
+        $this->assertSame(123, $enum->getValue());
     }
 
     /**
@@ -103,7 +104,7 @@ class IntegerEnumTest extends \PHPUnit_Framework_TestCase
         $enumClass = $this->getEnumClass();
         $enum = $enumClass::getEnum('12foo');
         /** @var \PHPUnit_Framework_TestCase $this */
-        $this->assertSame(12, $enum->getEnumValue());
+        $this->assertSame(12, $enum->getValue());
     }
 
     /**
@@ -115,7 +116,7 @@ class IntegerEnumTest extends \PHPUnit_Framework_TestCase
         $enum = $enumClass::getEnum(new WithToStringTestObject($integer = 12345));
         /** @var \PHPUnit_Framework_TestCase $this */
         $this->assertInstanceOf('Doctrineum\Scalar\EnumInterface', $enum);
-        $this->assertSame($integer, $enum->getEnumValue());
+        $this->assertSame($integer, $enum->getValue());
         $this->assertSame("$integer", (string)$enum);
     }
 
@@ -127,7 +128,7 @@ class IntegerEnumTest extends \PHPUnit_Framework_TestCase
         $enumClass = $this->getEnumClass();
         $enum = $enumClass::getEnum(new WithToStringTestObject('foo'));
         /** @var \PHPUnit_Framework_TestCase $this */
-        $this->assertSame(0, $enum->getEnumValue());
+        $this->assertSame(0, $enum->getValue());
     }
 
     /**
@@ -138,7 +139,7 @@ class IntegerEnumTest extends \PHPUnit_Framework_TestCase
         $enumClass = $this->getEnumClass();
         $enum = $enumClass::getEnum('');
         /** @var \PHPUnit_Framework_TestCase $this */
-        $this->assertSame(0, $enum->getEnumValue());
+        $this->assertSame(0, $enum->getValue());
     }
 
     /**
@@ -149,7 +150,7 @@ class IntegerEnumTest extends \PHPUnit_Framework_TestCase
         $enumClass = $this->getEnumClass();
         $enum = $enumClass::getEnum(null);
         /** @var \PHPUnit_Framework_TestCase $this */
-        $this->assertSame(0, $enum->getEnumValue());
+        $this->assertSame(0, $enum->getValue());
     }
 
     /** @test */
@@ -159,12 +160,12 @@ class IntegerEnumTest extends \PHPUnit_Framework_TestCase
 
         $enum = $enumClass::getEnum($value = 12345);
         $this->assertInstanceOf($enumClass, $enum);
-        $this->assertSame($value, $enum->getEnumValue());
+        $this->assertSame($value, $enum->getValue());
         $this->assertSame("$value", (string)$enum);
 
         $inDifferentNamespace = $this->getInheritedEnum($value);
         $this->assertInstanceOf($enumClass, $inDifferentNamespace);
-        $this->assertSame($enum->getEnumValue(), $inDifferentNamespace->getEnumValue());
+        $this->assertSame($enum->getValue(), $inDifferentNamespace->getValue());
         $this->assertNotSame($enum, $inDifferentNamespace);
     }
 
