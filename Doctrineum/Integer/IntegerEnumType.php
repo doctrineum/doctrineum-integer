@@ -2,7 +2,7 @@
 namespace Doctrineum\Integer;
 
 use Doctrineum\Scalar\EnumType;
-use Granam\Scalar\Tools\ValueDescriber;
+use Granam\Integer\Tools\ToInteger;
 
 /**
  * Class EnumType
@@ -20,19 +20,25 @@ class IntegerEnumType extends EnumType
     /**
      * @see \Doctrineum\Scalar\EnumType::convertToPHPValue for usage
      *
-     * @param string $enumValue
+     * @param mixed $enumValue
      *
      * @return IntegerEnum
      */
     protected function convertToEnum($enumValue)
     {
-        if (!is_int($enumValue)) {
-            /** @var mixed $enumValue */
-            throw new Exceptions\UnexpectedValueToConvert(
-                'Unexpected value to convert. Expected integer, got ' . ValueDescriber::describe($enumValue)
-            );
-        }
+        $this->checkValueToConvert($enumValue);
 
         return parent::convertToEnum($enumValue);
+    }
+
+    protected function checkValueToConvert($value)
+    {
+        try {
+            // Uses side effect of the conversion - the checks
+            ToInteger::toInteger($value);
+        } catch (\Granam\Integer\Tools\Exceptions\WrongParameterType $exception) {
+            // wrapping exception by a local one
+            throw new Exceptions\UnexpectedValueToConvert($exception->getMessage(), $exception->getCode(), $exception);
+        }
     }
 }
