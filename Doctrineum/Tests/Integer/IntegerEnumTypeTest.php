@@ -177,13 +177,12 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      * @depends type_instance_can_be_obtained
-     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
-    public function string_integer_to_php_value_causes_exception(EnumType $enumType)
+    public function string_integer_to_php_value_gives_enum_with_that_integer(EnumType $enumType)
     {
         $enum = $enumType->convertToPHPValue($stringInteger = '12345', $this->getAbstractPlatform());
         $this->assertInstanceOf($this->getRegisteredEnumClass(), $enum);
-        $this->assertSame($stringInteger, $enum->getEnumValue());
+        $this->assertSame((int)$stringInteger, $enum->getEnumValue());
         $this->assertSame($stringInteger, (string)$enum);
     }
 
@@ -192,11 +191,12 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      * @depends type_instance_can_be_obtained
-     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
-    public function null_to_php_value_causes_exception(EnumType $enumType)
+    public function null_to_php_value_gives_zero(EnumType $enumType)
     {
-        $enumType->convertToPHPValue(null, $this->getAbstractPlatform());
+        $enum = $enumType->convertToPHPValue(null, $this->getAbstractPlatform());
+        $this->assertSame(0, $enum->getEnumValue());
+        $this->assertSame('0', (string)$enum);
     }
 
     /**
@@ -204,11 +204,12 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      * @depends type_instance_can_be_obtained
-     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
-    public function empty_string_to_php_value_causes_exception(EnumType $enumType)
+    public function empty_string_to_php_gives_zero(EnumType $enumType)
     {
-        $enumType->convertToPHPValue('', $this->getAbstractPlatform());
+        $enum = $enumType->convertToPHPValue('', $this->getAbstractPlatform());
+        $this->assertSame(0, $enum->getEnumValue());
+        $this->assertSame('0', (string)$enum);
     }
 
     /**
@@ -228,11 +229,12 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      * @depends type_instance_can_be_obtained
-     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
-    public function zero_float_to_php_value_cause_exception(EnumType $enumType)
+    public function zero_float_to_php_gives_zero(EnumType $enumType)
     {
-        $enumType->convertToPHPValue(0.0, $this->getAbstractPlatform());
+        $enum = $enumType->convertToPHPValue(0.0, $this->getAbstractPlatform());
+        $this->assertSame(0, $enum->getEnumValue());
+        $this->assertSame('0', (string)$enum);
     }
 
     /**
@@ -240,11 +242,12 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      * @depends type_instance_can_be_obtained
-     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
-    public function false_to_php_value_cause_exception(EnumType $enumType)
+    public function false_to_php_value_gives_zero(EnumType $enumType)
     {
-        $enumType->convertToPHPValue(false, $this->getAbstractPlatform());
+        $enum = $enumType->convertToPHPValue(false, $this->getAbstractPlatform());
+        $this->assertSame(0, $enum->getEnumValue());
+        $this->assertSame('0', (string)$enum);
     }
 
     /**
@@ -252,11 +255,12 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      * @depends type_instance_can_be_obtained
-     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
-    public function true_to_php_value_cause_exception(EnumType $enumType)
+    public function true_to_php_gives_one(EnumType $enumType)
     {
-        $enumType->convertToPHPValue(true, $this->getAbstractPlatform());
+        $enum = $enumType->convertToPHPValue(true, $this->getAbstractPlatform());
+        $this->assertSame(1, $enum->getEnumValue());
+        $this->assertSame('1', (string)$enum);
     }
 
     /**
