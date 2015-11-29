@@ -147,7 +147,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
     {
         $enum = \Mockery::mock('Doctrineum\Scalar\EnumInterface');
         /** @noinspection PhpMethodParametersCountMismatchInspection */
-        $enum->shouldReceive('getEnumValue')
+        $enum->shouldReceive('getValue')
             ->once()
             ->andReturn($value = 12345);
         /** @var EnumInterface $enum */
@@ -168,7 +168,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
     {
         $enum = $enumType->convertToPHPValue($integer = 12345, $this->getAbstractPlatform());
         $this->assertInstanceOf($this->getRegisteredEnumClass(), $enum);
-        $this->assertSame($integer, $enum->getEnumValue());
+        $this->assertSame($integer, $enum->getValue());
         $this->assertSame("$integer", (string)$enum);
     }
 
@@ -182,7 +182,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
     {
         $enum = $enumType->convertToPHPValue($stringInteger = '12345', $this->getAbstractPlatform());
         $this->assertInstanceOf($this->getRegisteredEnumClass(), $enum);
-        $this->assertSame((int)$stringInteger, $enum->getEnumValue());
+        $this->assertSame((int)$stringInteger, $enum->getValue());
         $this->assertSame($stringInteger, (string)$enum);
     }
 
@@ -195,7 +195,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
     public function null_to_php_value_gives_zero(EnumType $enumType)
     {
         $enum = $enumType->convertToPHPValue(null, $this->getAbstractPlatform());
-        $this->assertSame(0, $enum->getEnumValue());
+        $this->assertSame(0, $enum->getValue());
         $this->assertSame('0', (string)$enum);
     }
 
@@ -208,7 +208,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
     public function empty_string_to_php_gives_zero(EnumType $enumType)
     {
         $enum = $enumType->convertToPHPValue('', $this->getAbstractPlatform());
-        $this->assertSame(0, $enum->getEnumValue());
+        $this->assertSame(0, $enum->getValue());
         $this->assertSame('0', (string)$enum);
     }
 
@@ -233,7 +233,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
     public function zero_float_to_php_gives_zero(EnumType $enumType)
     {
         $enum = $enumType->convertToPHPValue(0.0, $this->getAbstractPlatform());
-        $this->assertSame(0, $enum->getEnumValue());
+        $this->assertSame(0, $enum->getValue());
         $this->assertSame('0', (string)$enum);
     }
 
@@ -246,7 +246,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
     public function false_to_php_value_gives_zero(EnumType $enumType)
     {
         $enum = $enumType->convertToPHPValue(false, $this->getAbstractPlatform());
-        $this->assertSame(0, $enum->getEnumValue());
+        $this->assertSame(0, $enum->getValue());
         $this->assertSame('0', (string)$enum);
     }
 
@@ -259,7 +259,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
     public function true_to_php_gives_one(EnumType $enumType)
     {
         $enum = $enumType->convertToPHPValue(true, $this->getAbstractPlatform());
-        $this->assertSame(1, $enum->getEnumValue());
+        $this->assertSame(1, $enum->getValue());
         $this->assertSame('1', (string)$enum);
     }
 

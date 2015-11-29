@@ -34,12 +34,4 @@ class IntegerEnum extends Enum implements IntegerEnumInterface
         }
     }
 
-    /**
-     * @return int
-     */
-    public function getValue()
-    {
-        return $this->getEnumValue();
-    }
-
 }
