@@ -6,6 +6,7 @@ use Granam\Integer\Tools\ToInteger;
 
 /**
  * @method static IntegerEnum getEnum($value)
+ * @method int getValue()
  */
 class IntegerEnum extends Enum implements IntegerEnumInterface
 {
