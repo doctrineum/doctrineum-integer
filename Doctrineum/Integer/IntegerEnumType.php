@@ -2,7 +2,7 @@
 namespace Doctrineum\Integer;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrineum\Scalar\EnumType;
+use Doctrineum\Scalar\ScalarEnumType;
 use Granam\Integer\Tools\ToInteger;
 
 /**
@@ -12,7 +12,7 @@ use Granam\Integer\Tools\ToInteger;
  * @method static IntegerEnumType getType($name),
  * @see Type::getType
  */
-class IntegerEnumType extends EnumType
+class IntegerEnumType extends ScalarEnumType
 {
     const INTEGER_ENUM = 'integer_enum';
 

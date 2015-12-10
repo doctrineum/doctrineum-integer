@@ -2,7 +2,9 @@
 namespace Doctrineum\Tests\Integer;
 
 use Doctrineum\Integer\IntegerEnum;
+use Doctrineum\Scalar\ScalarEnumInterface;
 use Doctrineum\Tests\Scalar\WithToStringTestObject;
+use Granam\Integer\IntegerInterface;
 
 class IntegerEnumTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,7 +23,7 @@ class IntegerEnumTest extends \PHPUnit_Framework_TestCase
         $instance = $enumClass::getEnum(12345);
         /** @var \PHPUnit_Framework_TestCase $this */
         $this->assertInstanceOf($enumClass, $instance);
-        $this->assertInstanceOf('Granam\Integer\IntegerInterface', $instance);
+        $this->assertInstanceOf(IntegerInterface::class, $instance);
     }
 
     /** @test */
@@ -115,7 +117,7 @@ class IntegerEnumTest extends \PHPUnit_Framework_TestCase
         $enumClass = $this->getEnumClass();
         $enum = $enumClass::getEnum(new WithToStringTestObject($integer = 12345));
         /** @var \PHPUnit_Framework_TestCase $this */
-        $this->assertInstanceOf('Doctrineum\Scalar\EnumInterface', $enum);
+        $this->assertInstanceOf(ScalarEnumInterface::class, $enum);
         $this->assertSame($integer, $enum->getValue());
         $this->assertSame("$integer", (string)$enum);
     }

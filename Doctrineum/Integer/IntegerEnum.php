@@ -1,14 +1,14 @@
 <?php
 namespace Doctrineum\Integer;
 
-use Doctrineum\Scalar\Enum;
+use Doctrineum\Scalar\ScalarEnum;
 use Granam\Integer\Tools\ToInteger;
 
 /**
  * @method static IntegerEnum getEnum($value)
  * @method int getValue()
  */
-class IntegerEnum extends Enum implements IntegerEnumInterface
+class IntegerEnum extends ScalarEnum implements IntegerEnumInterface
 {
 
     /**
