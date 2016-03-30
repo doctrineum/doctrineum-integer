@@ -10,29 +10,6 @@ use Doctrineum\Scalar\ScalarEnumType;
 
 class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @return \Doctrineum\Integer\IntegerEnumType
-     */
-    protected function getEnumTypeClass()
-    {
-        return IntegerEnumType::getClass();
-    }
-
-    /**
-     * @return \Doctrineum\Integer\IntegerEnum
-     */
-    protected function getRegisteredEnumClass()
-    {
-        return IntegerEnum::getClass();
-    }
-
-    protected function setUp()
-    {
-        $enumTypeClass = $this->getEnumTypeClass();
-        if (!Type::hasType($enumTypeClass::getTypeName())) {
-            Type::addType($enumTypeClass::getTypeName(), $enumTypeClass);
-        }
-    }
 
     protected function tearDown()
     {
@@ -44,6 +21,22 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
         if ($enumType::hasSubTypeEnum($this->getSubTypeEnumClass())) {
             self::assertTrue($enumType::removeSubTypeEnum($this->getSubTypeEnumClass()));
         }
+    }
+
+    protected function setUp()
+    {
+        $enumTypeClass = $this->getEnumTypeClass();
+        if (!Type::hasType($enumTypeClass::getTypeName())) {
+            Type::addType($enumTypeClass::getTypeName(), $enumTypeClass);
+        }
+    }
+
+    /**
+     * @return \Doctrineum\Integer\IntegerEnumType
+     */
+    protected function getEnumTypeClass()
+    {
+        return IntegerEnumType::getClass();
     }
 
     /**
@@ -173,6 +166,14 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @return \Doctrineum\Integer\IntegerEnum
+     */
+    protected function getRegisteredEnumClass()
+    {
+        return IntegerEnum::getClass();
+    }
+
+    /**
      * @param ScalarEnumType $enumType
      *
      * @test
@@ -191,12 +192,11 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      * @depends type_instance_can_be_obtained
+     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
-    public function null_to_php_value_gives_zero(ScalarEnumType $enumType)
+    public function null_cause_exception(ScalarEnumType $enumType)
     {
-        $enum = $enumType->convertToPHPValue(null, $this->getAbstractPlatform());
-        self::assertSame(0, $enum->getValue());
-        self::assertSame('0', (string)$enum);
+        $enumType->convertToPHPValue(null, $this->getAbstractPlatform());
     }
 
     /**
@@ -204,12 +204,11 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      * @depends type_instance_can_be_obtained
+     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
-    public function empty_string_to_php_gives_zero(ScalarEnumType $enumType)
+    public function empty_string_cause_exception(ScalarEnumType $enumType)
     {
-        $enum = $enumType->convertToPHPValue('', $this->getAbstractPlatform());
-        self::assertSame(0, $enum->getValue());
-        self::assertSame('0', (string)$enum);
+        $enumType->convertToPHPValue('', $this->getAbstractPlatform());
     }
 
     /**
@@ -409,7 +408,6 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
         // registering twice - should thrown an exception
         $enumType::addSubTypeEnum($this->getSubTypeEnumClass(), '~foo~');
     }
-
 
     /**
      * @param ScalarEnumType $enumType

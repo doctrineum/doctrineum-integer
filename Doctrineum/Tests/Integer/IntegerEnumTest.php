@@ -9,6 +9,17 @@ use Granam\Integer\IntegerInterface;
 class IntegerEnumTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @test
+     */
+    public function I_can_create_integer_enum()
+    {
+        $enumClass = $this->getEnumClass();
+        $instance = $enumClass::getEnum(12345);
+        self::assertInstanceOf($enumClass, $instance);
+        self::assertInstanceOf(IntegerInterface::class, $instance);
+    }
+
+    /**
      * @return \Doctrineum\Integer\IntegerEnum
      */
     protected function getEnumClass()
@@ -16,42 +27,35 @@ class IntegerEnumTest extends \PHPUnit_Framework_TestCase
         return IntegerEnum::getClass();
     }
 
-    /** @test */
-    public function I_can_create_integer_enum()
-    {
-        $enumClass = $this->getEnumClass();
-        $instance = $enumClass::getEnum(12345);
-        /** @var \PHPUnit_Framework_TestCase $this */
-        self::assertInstanceOf($enumClass, $instance);
-        self::assertInstanceOf(IntegerInterface::class, $instance);
-    }
-
-    /** @test */
+    /**
+     * @test
+     */
     public function returns_the_same_integer_as_created_with()
     {
         $enumClass = $this->getEnumClass();
         $enum = $enumClass::getEnum($integer = 12345);
-        /** @var \PHPUnit_Framework_TestCase $this */
         self::assertSame($integer, $enum->getValue());
         self::assertSame("$integer", (string)$enum);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function returns_integer_created_from_string_created_with()
     {
         $enumClass = $this->getEnumClass();
         $enum = $enumClass::getEnum($stringInteger = '12345');
-        /** @var \PHPUnit_Framework_TestCase $this */
         self::assertSame((int)$stringInteger, $enum->getValue());
         self::assertSame($stringInteger, (string)$enum);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function string_with_integer_and_spaces_is_trimmed_and_accepted()
     {
         $enumClass = $this->getEnumClass();
         $enum = $enumClass::getEnum('  12 ');
-        /** @var \PHPUnit_Framework_TestCase $this */
         self::assertSame(12, $enum->getValue());
         self::assertSame('12', (string)$enum);
     }
@@ -63,7 +67,6 @@ class IntegerEnumTest extends \PHPUnit_Framework_TestCase
     {
         $enumClass = $this->getEnumClass();
         $enum = $enumClass::getEnum(123.0);
-        /** @var \PHPUnit_Framework_TestCase $this */
         self::assertSame(123, $enum->getValue());
     }
 
@@ -84,7 +87,6 @@ class IntegerEnumTest extends \PHPUnit_Framework_TestCase
     {
         $enumClass = $this->getEnumClass();
         $enum = $enumClass::getEnum('123.0');
-        /** @var \PHPUnit_Framework_TestCase $this */
         self::assertSame(123, $enum->getValue());
     }
 
@@ -100,13 +102,12 @@ class IntegerEnumTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @expectedException \Doctrineum\Scalar\Exceptions\UnexpectedValueToEnum
      */
-    public function string_with_partial_integer_is_that_integer()
+    public function string_with_partial_integer_cause_exception()
     {
         $enumClass = $this->getEnumClass();
-        $enum = $enumClass::getEnum('12foo');
-        /** @var \PHPUnit_Framework_TestCase $this */
-        self::assertSame(12, $enum->getValue());
+        $enumClass::getEnum('12foo');
     }
 
     /**
@@ -116,7 +117,6 @@ class IntegerEnumTest extends \PHPUnit_Framework_TestCase
     {
         $enumClass = $this->getEnumClass();
         $enum = $enumClass::getEnum(new WithToStringTestObject($integer = 12345));
-        /** @var \PHPUnit_Framework_TestCase $this */
         self::assertInstanceOf(Enum::class, $enum);
         self::assertSame($integer, $enum->getValue());
         self::assertSame("$integer", (string)$enum);
@@ -124,38 +124,37 @@ class IntegerEnumTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @expectedException \Doctrineum\Scalar\Exceptions\UnexpectedValueToEnum
      */
-    public function to_string_object_with_non_numeric_string_is_zero()
+    public function to_string_object_with_non_numeric_value_cause_exception()
     {
         $enumClass = $this->getEnumClass();
-        $enum = $enumClass::getEnum(new WithToStringTestObject('foo'));
-        /** @var \PHPUnit_Framework_TestCase $this */
-        self::assertSame(0, $enum->getValue());
+        $enumClass::getEnum(new WithToStringTestObject('foo'));
+    }
+
+    /**
+     * @test
+     * @expectedException \Doctrineum\Scalar\Exceptions\UnexpectedValueToEnum
+     */
+    public function empty_string_cause_exception()
+    {
+        $enumClass = $this->getEnumClass();
+        $enumClass::getEnum('');
+    }
+
+    /**
+     * @test
+     * @expectedException \Doctrineum\Scalar\Exceptions\UnexpectedValueToEnum
+     */
+    public function null_cause_exception()
+    {
+        $enumClass = $this->getEnumClass();
+        $enumClass::getEnum(null);
     }
 
     /**
      * @test
      */
-    public function empty_string_is_zero()
-    {
-        $enumClass = $this->getEnumClass();
-        $enum = $enumClass::getEnum('');
-        /** @var \PHPUnit_Framework_TestCase $this */
-        self::assertSame(0, $enum->getValue());
-    }
-
-    /**
-     * @test
-     */
-    public function null_is_zero()
-    {
-        $enumClass = $this->getEnumClass();
-        $enum = $enumClass::getEnum(null);
-        /** @var \PHPUnit_Framework_TestCase $this */
-        self::assertSame(0, $enum->getValue());
-    }
-
-    /** @test */
     public function inherited_enum_with_same_value_lives_in_own_inner_namespace()
     {
         $enumClass = $this->getEnumClass();
