@@ -16,10 +16,10 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
         \Mockery::close();
 
         $enumTypeClass = $this->getEnumTypeClass();
-        $enumType = Type::getType($enumTypeClass::getTypeName());
-        /** @var ScalarEnumType $enumType */
-        if ($enumType::hasSubTypeEnum($this->getSubTypeEnumClass())) {
-            self::assertTrue($enumType::removeSubTypeEnum($this->getSubTypeEnumClass()));
+        $integerEnumType = Type::getType($enumTypeClass::getTypeName());
+        /** @var ScalarEnumType $integerEnumType */
+        if ($integerEnumType::hasSubTypeEnum($this->getSubTypeEnumClass())) {
+            self::assertTrue($integerEnumType::removeSubTypeEnum($this->getSubTypeEnumClass()));
         }
     }
 
@@ -53,6 +53,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @return IntegerEnumType
      */
     public function type_instance_can_be_obtained()
     {
@@ -64,12 +65,12 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param ScalarEnumType $enumType
+     * @param IntegerEnumType $integerEnumType
      *
      * @test
      * @depends type_instance_can_be_obtained
      */
-    public function type_name_is_as_expected(ScalarEnumType $enumType)
+    public function type_name_is_as_expected(IntegerEnumType $integerEnumType)
     {
         $enumTypeClass = $this->getEnumTypeClass();
         // like self_typed_integer_enum
@@ -79,7 +80,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
         self::assertTrue(defined("$enumTypeClass::$constantName"));
         self::assertSame($enumTypeClass::getTypeName(), $typeName);
         self::assertSame($typeName, constant("$enumTypeClass::$constantName"));
-        self::assertSame($enumType::getTypeName(), $enumTypeClass::getTypeName());
+        self::assertSame($integerEnumType::getTypeName(), $enumTypeClass::getTypeName());
     }
 
     /**
@@ -99,26 +100,26 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param ScalarEnumType $enumType
+     * @param IntegerEnumType $integerEnumType
      *
      * @test
      * @depends type_instance_can_be_obtained
      */
-    public function sql_declaration_is_valid(ScalarEnumType $enumType)
+    public function sql_declaration_is_valid(IntegerEnumType $integerEnumType)
     {
-        $sql = $enumType->getSQLDeclaration([], $this->getAbstractPlatform());
+        $sql = $integerEnumType->getSQLDeclaration([], $this->getAbstractPlatform());
         self::assertSame('INTEGER', $sql);
     }
 
     /**
-     * @param ScalarEnumType $enumType
+     * @param IntegerEnumType $integerEnumType
      *
      * @test
      * @depends type_instance_can_be_obtained
      */
-    public function sql_default_length_is_ten(ScalarEnumType $enumType)
+    public function sql_default_length_is_ten(IntegerEnumType $integerEnumType)
     {
-        $defaultLength = $enumType->getDefaultLength($this->getAbstractPlatform());
+        $defaultLength = $integerEnumType->getDefaultLength($this->getAbstractPlatform());
         self::assertSame(10, $defaultLength);
     }
 
@@ -131,12 +132,12 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param ScalarEnumType $enumType
+     * @param IntegerEnumType $integerEnumType
      *
      * @test
      * @depends type_instance_can_be_obtained
      */
-    public function enum_as_database_value_is_integer_value_of_that_enum(ScalarEnumType $enumType)
+    public function enum_as_database_value_is_integer_value_of_that_enum(IntegerEnumType $integerEnumType)
     {
         $enum = \Mockery::mock(Enum::class);
         /** @noinspection PhpMethodParametersCountMismatchInspection */
@@ -144,7 +145,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
             ->once()
             ->andReturn($value = 12345);
         /** @var Enum $enum */
-        self::assertSame($value, $enumType->convertToDatabaseValue($enum, $this->getAbstractPlatform()));
+        self::assertSame($value, $integerEnumType->convertToDatabaseValue($enum, $this->getAbstractPlatform()));
     }
 
     /**
@@ -152,14 +153,14 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      */
 
     /**
-     * @param ScalarEnumType $enumType
+     * @param IntegerEnumType $integerEnumType
      *
      * @test
      * @depends type_instance_can_be_obtained
      */
-    public function integer_to_php_value_gives_enum_with_that_integer(ScalarEnumType $enumType)
+    public function integer_to_php_value_gives_enum_with_that_integer(IntegerEnumType $integerEnumType)
     {
-        $enum = $enumType->convertToPHPValue($integer = 12345, $this->getAbstractPlatform());
+        $enum = $integerEnumType->convertToPHPValue($integer = 12345, $this->getAbstractPlatform());
         self::assertInstanceOf($this->getRegisteredEnumClass(), $enum);
         self::assertSame($integer, $enum->getValue());
         self::assertSame("$integer", (string)$enum);
@@ -174,140 +175,140 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param ScalarEnumType $enumType
+     * @param IntegerEnumType $integerEnumType
      *
      * @test
      * @depends type_instance_can_be_obtained
      */
-    public function string_integer_to_php_value_gives_enum_with_that_integer(ScalarEnumType $enumType)
+    public function string_integer_to_php_value_gives_enum_with_that_integer(IntegerEnumType $integerEnumType)
     {
-        $enum = $enumType->convertToPHPValue($stringInteger = '12345', $this->getAbstractPlatform());
+        $enum = $integerEnumType->convertToPHPValue($stringInteger = '12345', $this->getAbstractPlatform());
         self::assertInstanceOf($this->getRegisteredEnumClass(), $enum);
         self::assertSame((int)$stringInteger, $enum->getValue());
         self::assertSame($stringInteger, (string)$enum);
     }
 
     /**
-     * @param ScalarEnumType $enumType
+     * @param IntegerEnumType $integerEnumType
      *
      * @test
      * @depends type_instance_can_be_obtained
      * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
-    public function null_cause_exception(ScalarEnumType $enumType)
+    public function null_cause_exception(IntegerEnumType $integerEnumType)
     {
-        $enumType->convertToPHPValue(null, $this->getAbstractPlatform());
+        $integerEnumType->convertToPHPValue(null, $this->getAbstractPlatform());
     }
 
     /**
-     * @param ScalarEnumType $enumType
+     * @param IntegerEnumType $integerEnumType
      *
      * @test
      * @depends type_instance_can_be_obtained
      * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
-    public function empty_string_cause_exception(ScalarEnumType $enumType)
+    public function empty_string_cause_exception(IntegerEnumType $integerEnumType)
     {
-        $enumType->convertToPHPValue('', $this->getAbstractPlatform());
+        $integerEnumType->convertToPHPValue('', $this->getAbstractPlatform());
     }
 
     /**
-     * @param ScalarEnumType $enumType
+     * @param IntegerEnumType $integerEnumType
      *
      * @test
      * @depends type_instance_can_be_obtained
      * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
-    public function float_to_php_value_cause_exception(ScalarEnumType $enumType)
+    public function float_to_php_value_cause_exception(IntegerEnumType $integerEnumType)
     {
-        $enumType->convertToPHPValue(12345.6789, $this->getAbstractPlatform());
+        $integerEnumType->convertToPHPValue(12345.6789, $this->getAbstractPlatform());
     }
 
     /**
-     * @param ScalarEnumType $enumType
+     * @param IntegerEnumType $integerEnumType
      *
      * @test
      * @depends type_instance_can_be_obtained
      */
-    public function zero_float_to_php_gives_zero(ScalarEnumType $enumType)
+    public function zero_float_to_php_gives_zero(IntegerEnumType $integerEnumType)
     {
-        $enum = $enumType->convertToPHPValue(0.0, $this->getAbstractPlatform());
+        $enum = $integerEnumType->convertToPHPValue(0.0, $this->getAbstractPlatform());
         self::assertSame(0, $enum->getValue());
         self::assertSame('0', (string)$enum);
     }
 
     /**
-     * @param ScalarEnumType $enumType
+     * @param IntegerEnumType $integerEnumType
      *
      * @test
      * @depends type_instance_can_be_obtained
      */
-    public function false_to_php_value_gives_zero(ScalarEnumType $enumType)
+    public function false_to_php_value_gives_zero(IntegerEnumType $integerEnumType)
     {
-        $enum = $enumType->convertToPHPValue(false, $this->getAbstractPlatform());
+        $enum = $integerEnumType->convertToPHPValue(false, $this->getAbstractPlatform());
         self::assertSame(0, $enum->getValue());
         self::assertSame('0', (string)$enum);
     }
 
     /**
-     * @param ScalarEnumType $enumType
+     * @param IntegerEnumType $integerEnumType
      *
      * @test
      * @depends type_instance_can_be_obtained
      */
-    public function true_to_php_gives_one(ScalarEnumType $enumType)
+    public function true_to_php_gives_one(IntegerEnumType $integerEnumType)
     {
-        $enum = $enumType->convertToPHPValue(true, $this->getAbstractPlatform());
+        $enum = $integerEnumType->convertToPHPValue(true, $this->getAbstractPlatform());
         self::assertSame(1, $enum->getValue());
         self::assertSame('1', (string)$enum);
     }
 
     /**
-     * @param ScalarEnumType $enumType
+     * @param IntegerEnumType $integerEnumType
      *
      * @test
      * @depends type_instance_can_be_obtained
      * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
-    public function array_to_php_value_cause_exception(ScalarEnumType $enumType)
+    public function array_to_php_value_cause_exception(IntegerEnumType $integerEnumType)
     {
-        $enumType->convertToPHPValue([], $this->getAbstractPlatform());
+        $integerEnumType->convertToPHPValue([], $this->getAbstractPlatform());
     }
 
     /**
-     * @param ScalarEnumType $enumType
+     * @param IntegerEnumType $integerEnumType
      *
      * @test
      * @depends type_instance_can_be_obtained
      * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
-    public function resource_to_php_value_cause_exception(ScalarEnumType $enumType)
+    public function resource_to_php_value_cause_exception(IntegerEnumType $integerEnumType)
     {
-        $enumType->convertToPHPValue(tmpfile(), $this->getAbstractPlatform());
+        $integerEnumType->convertToPHPValue(tmpfile(), $this->getAbstractPlatform());
     }
 
     /**
-     * @param ScalarEnumType $enumType
+     * @param IntegerEnumType $integerEnumType
      *
      * @test
      * @depends type_instance_can_be_obtained
      * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
-    public function object_to_php_value_cause_exception(ScalarEnumType $enumType)
+    public function object_to_php_value_cause_exception(IntegerEnumType $integerEnumType)
     {
-        $enumType->convertToPHPValue(new \stdClass(), $this->getAbstractPlatform());
+        $integerEnumType->convertToPHPValue(new \stdClass(), $this->getAbstractPlatform());
     }
 
     /**
-     * @param ScalarEnumType $enumType
+     * @param IntegerEnumType $integerEnumType
      *
      * @test
      * @depends type_instance_can_be_obtained
      * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
-    public function callback_to_php_value_cause_exception(ScalarEnumType $enumType)
+    public function callback_to_php_value_cause_exception(IntegerEnumType $integerEnumType)
     {
-        $enumType->convertToPHPValue(function () {
+        $integerEnumType->convertToPHPValue(function () {
         }, $this->getAbstractPlatform());
     }
 
@@ -316,48 +317,48 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      */
 
     /**
-     * @param ScalarEnumType $enumType
+     * @param IntegerEnumType $integerEnumType
      *
      * @return IntegerEnumType
      *
      * @test
      * @depends type_instance_can_be_obtained
      */
-    public function can_register_subtype(ScalarEnumType $enumType)
+    public function can_register_subtype(IntegerEnumType $integerEnumType)
     {
-        self::assertTrue($enumType::addSubTypeEnum($this->getSubTypeEnumClass(), '~foo~'));
-        self::assertTrue($enumType::hasSubTypeEnum($this->getSubTypeEnumClass()));
+        self::assertTrue($integerEnumType::addSubTypeEnum($this->getSubTypeEnumClass(), '~foo~'));
+        self::assertTrue($integerEnumType::hasSubTypeEnum($this->getSubTypeEnumClass()));
 
-        return $enumType;
+        return $integerEnumType;
     }
 
     /**
-     * @param ScalarEnumType $enumType
+     * @param IntegerEnumType $integerEnumType
      *
      * @test
      * @depends can_register_subtype
      */
-    public function can_unregister_subtype(ScalarEnumType $enumType)
+    public function can_unregister_subtype(IntegerEnumType $integerEnumType)
     {
         /**
          * The subtype is unregistered because of tearDown clean up
          * @see IntegerEnumTypeTestTrait::tearDown
          */
-        self::assertFalse($enumType::hasSubTypeEnum($this->getSubTypeEnumClass()), 'Subtype should not be registered yet');
-        self::assertTrue($enumType::addSubTypeEnum($this->getSubTypeEnumClass(), '~foo~'));
-        self::assertTrue($enumType::removeSubTypeEnum($this->getSubTypeEnumClass()));
-        self::assertFalse($enumType::hasSubTypeEnum($this->getSubTypeEnumClass()));
+        self::assertFalse($integerEnumType::hasSubTypeEnum($this->getSubTypeEnumClass()), 'Subtype should not be registered yet');
+        self::assertTrue($integerEnumType::addSubTypeEnum($this->getSubTypeEnumClass(), '~foo~'));
+        self::assertTrue($integerEnumType::removeSubTypeEnum($this->getSubTypeEnumClass()));
+        self::assertFalse($integerEnumType::hasSubTypeEnum($this->getSubTypeEnumClass()));
     }
 
     /**
-     * @param ScalarEnumType $enumType
+     * @param IntegerEnumType $integerEnumType
      *
      * @test
      * @depends can_register_subtype
      */
-    public function subtype_returns_proper_enum(ScalarEnumType $enumType)
+    public function subtype_returns_proper_enum(IntegerEnumType $integerEnumType)
     {
-        self::assertTrue($enumType::addSubTypeEnum($this->getSubTypeEnumClass(), $regexp = '~456~'));
+        self::assertTrue($integerEnumType::addSubTypeEnum($this->getSubTypeEnumClass(), $regexp = '~456~'));
         /** @var AbstractPlatform $abstractPlatform */
         $abstractPlatform = \Mockery::mock(AbstractPlatform::class);
         $matchingValueToConvert = 123456789;
@@ -366,20 +367,20 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
          * Used TestSubtype returns as an "enum" the given value, which is $valueToConvert in this case,
          * @see \Doctrineum\Tests\Scalar\TestSubtype::getEnum
          */
-        $enumFromSubType = $enumType->convertToPHPValue($matchingValueToConvert, $abstractPlatform);
+        $enumFromSubType = $integerEnumType->convertToPHPValue($matchingValueToConvert, $abstractPlatform);
         self::assertInstanceOf($this->getSubTypeEnumClass(), $enumFromSubType);
         self::assertSame("$matchingValueToConvert", "$enumFromSubType");
     }
 
     /**
-     * @param ScalarEnumType $enumType
+     * @param IntegerEnumType $integerEnumType
      *
      * @test
      * @depends can_register_subtype
      */
-    public function default_enum_is_given_if_subtype_does_not_match(ScalarEnumType $enumType)
+    public function default_enum_is_given_if_subtype_does_not_match(IntegerEnumType $integerEnumType)
     {
-        self::assertTrue($enumType::addSubTypeEnum($this->getSubTypeEnumClass(), $regexp = '~456~'));
+        self::assertTrue($integerEnumType::addSubTypeEnum($this->getSubTypeEnumClass(), $regexp = '~456~'));
         /** @var AbstractPlatform $abstractPlatform */
         $abstractPlatform = \Mockery::mock(AbstractPlatform::class);
         $nonMatchingValueToConvert = 99999999;
@@ -388,38 +389,38 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
          * Used TestSubtype returns as an "enum" the given value, which is $valueToConvert in this case,
          * @see \Doctrineum\Tests\Scalar\TestSubtype::getEnum
          */
-        $enum = $enumType->convertToPHPValue($nonMatchingValueToConvert, $abstractPlatform);
+        $enum = $integerEnumType->convertToPHPValue($nonMatchingValueToConvert, $abstractPlatform);
         self::assertNotSame($nonMatchingValueToConvert, $enum);
         self::assertInstanceOf(Enum::class, $enum);
         self::assertSame("$nonMatchingValueToConvert", (string)$enum);
     }
 
     /**
-     * @param ScalarEnumType $enumType
+     * @param IntegerEnumType $integerEnumType
      *
      * @test
      * @depends type_instance_can_be_obtained
      * @expectedException \Doctrineum\Scalar\Exceptions\SubTypeEnumIsAlreadyRegistered
      */
-    public function registering_same_subtype_again_throws_exception(ScalarEnumType $enumType)
+    public function registering_same_subtype_again_throws_exception(IntegerEnumType $integerEnumType)
     {
-        self::assertFalse($enumType::hasSubTypeEnum($this->getSubTypeEnumClass()));
-        self::assertTrue($enumType::addSubTypeEnum($this->getSubTypeEnumClass(), '~foo~'));
+        self::assertFalse($integerEnumType::hasSubTypeEnum($this->getSubTypeEnumClass()));
+        self::assertTrue($integerEnumType::addSubTypeEnum($this->getSubTypeEnumClass(), '~foo~'));
         // registering twice - should thrown an exception
-        $enumType::addSubTypeEnum($this->getSubTypeEnumClass(), '~foo~');
+        $integerEnumType::addSubTypeEnum($this->getSubTypeEnumClass(), '~foo~');
     }
 
     /**
-     * @param ScalarEnumType $enumType
+     * @param IntegerEnumType $integerEnumType
      *
      * @test
      * @depends type_instance_can_be_obtained
      * @expectedException \Doctrineum\Scalar\Exceptions\InvalidRegexpFormat
      * @expectedExceptionMessage The given regexp is not enclosed by same delimiters and therefore is not valid: 'foo~'
      */
-    public function registering_subtype_with_invalid_regexp_throws_exception(ScalarEnumType $enumType)
+    public function registering_subtype_with_invalid_regexp_throws_exception(IntegerEnumType $integerEnumType)
     {
-        $enumType::addSubTypeEnum($this->getSubTypeEnumClass(), 'foo~' /* missing opening delimiter */);
+        $integerEnumType::addSubTypeEnum($this->getSubTypeEnumClass(), 'foo~' /* missing opening delimiter */);
     }
 
     /**
@@ -460,8 +461,8 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
         $value = 345678;
         self::assertRegExp($regexp, "$value");
 
-        $enumType = Type::getType($enumTypeClass::getTypeName());
-        $enumSubType = $enumType->convertToPHPValue($value, $this->getPlatform());
+        $integerEnumType = Type::getType($enumTypeClass::getTypeName());
+        $enumSubType = $integerEnumType->convertToPHPValue($value, $this->getPlatform());
         self::assertInstanceOf($this->getSubTypeEnumClass(), $enumSubType);
         self::assertSame("$value", "$enumSubType");
 
