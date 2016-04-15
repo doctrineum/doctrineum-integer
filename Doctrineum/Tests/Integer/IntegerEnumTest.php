@@ -3,7 +3,7 @@ namespace Doctrineum\Tests\Integer;
 
 use Doctrineum\Integer\IntegerEnum;
 use Doctrineum\Scalar\Enum;
-use Doctrineum\Tests\Scalar\WithToStringTestObject;
+use Doctrineum\Tests\Scalar\Helpers\WithToStringTestObject;
 use Granam\Integer\IntegerInterface;
 
 class IntegerEnumTest extends \PHPUnit_Framework_TestCase
