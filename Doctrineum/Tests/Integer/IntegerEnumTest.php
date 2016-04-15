@@ -144,7 +144,7 @@ class IntegerEnumTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \Doctrineum\Scalar\Exceptions\UnexpectedValueToEnum
+     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
     public function null_cause_exception()
     {

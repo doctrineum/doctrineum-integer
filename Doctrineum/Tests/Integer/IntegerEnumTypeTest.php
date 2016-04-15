@@ -193,11 +193,10 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      *
      * @test
      * @depends type_instance_can_be_obtained
-     * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
-    public function null_cause_exception(IntegerEnumType $integerEnumType)
+    public function I_get_null_if_fetched_from_database(IntegerEnumType $integerEnumType)
     {
-        $integerEnumType->convertToPHPValue(null, $this->getAbstractPlatform());
+        self::assertNull($integerEnumType->convertToPHPValue(null, $this->getAbstractPlatform()));
     }
 
     /**
@@ -207,7 +206,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      * @depends type_instance_can_be_obtained
      * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
-    public function empty_string_cause_exception(IntegerEnumType $integerEnumType)
+    public function It_raises_an_exception_if_get_empty_string_from_database(IntegerEnumType $integerEnumType)
     {
         $integerEnumType->convertToPHPValue('', $this->getAbstractPlatform());
     }

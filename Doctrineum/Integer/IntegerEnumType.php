@@ -20,21 +20,23 @@ class IntegerEnumType extends ScalarEnumType
      * @see \Doctrineum\Scalar\EnumType::convertToPHPValue for usage
      *
      * @param mixed $enumValue
-     *
      * @return IntegerEnum
+     * @throws \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
     protected function convertToEnum($enumValue)
     {
-        $this->checkValueToConvert($enumValue);
-
-        return parent::convertToEnum($enumValue);
+        return parent::convertToEnum($this->toInteger($enumValue));
     }
 
-    protected function checkValueToConvert($value)
+    /**
+     * @param $value
+     * @return int
+     * @throws \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
+     */
+    protected function toInteger($value)
     {
         try {
-            // Uses side effect of the conversion - the checks
-            ToInteger::toInteger($value);
+            return ToInteger::toInteger($value, true /* strict */);
         } catch (\Granam\Integer\Tools\Exceptions\WrongParameterType $exception) {
             // wrapping exception by a local one
             throw new Exceptions\UnexpectedValueToConvert($exception->getMessage(), $exception->getCode(), $exception);

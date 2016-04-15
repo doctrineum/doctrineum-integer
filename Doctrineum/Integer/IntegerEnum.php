@@ -15,20 +15,12 @@ class IntegerEnum extends ScalarEnum implements IntegerEnumInterface
      * Overloading parent @see \Doctrineum\Scalar\EnumTrait::convertToEnumFinalValue
      * @param mixed $enumValue
      * @return int
+     * @throws \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
     protected static function convertToEnumFinalValue($enumValue)
     {
-        return static::convertToInteger($enumValue);
-    }
-
-    /**
-     * @param mixed $valueToConvert
-     * @return float
-     */
-    protected static function convertToInteger($valueToConvert)
-    {
         try {
-            return ToInteger::toInteger($valueToConvert);
+            return ToInteger::toInteger($enumValue, true /* strict */);
         } catch (\Granam\Integer\Tools\Exceptions\WrongParameterType $exception) {
             // wrapping the exception by local one
             throw new Exceptions\UnexpectedValueToConvert($exception->getMessage(), $exception->getCode(), $exception);
