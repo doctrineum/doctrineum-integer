@@ -1,10 +1,10 @@
 <?php
 namespace Doctrineum\Integer;
 
-use Doctrineum\Scalar\Enum;
+use Doctrineum\Scalar\ScalarEnumInterface;
 use Granam\Integer\IntegerInterface;
 
-interface IntegerEnumInterface extends IntegerInterface, Enum
+interface IntegerEnumInterface extends IntegerInterface, ScalarEnumInterface
 {
 
 }

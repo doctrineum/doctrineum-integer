@@ -5,60 +5,39 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 use Doctrineum\Integer\IntegerEnum;
 use Doctrineum\Integer\IntegerEnumType;
-use Doctrineum\Scalar\Enum;
+use Doctrineum\Scalar\ScalarEnumInterface;
 use Doctrineum\Scalar\ScalarEnumType;
+use Doctrineum\Tests\SelfRegisteringType\AbstractSelfRegisteringTypeTest;
 
-class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
+class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 {
 
     protected function tearDown()
     {
-        \Mockery::close();
-
-        $enumTypeClass = $this->getEnumTypeClass();
-        $integerEnumType = Type::getType($enumTypeClass::getTypeName());
+        $integerEnumType = Type::getType($this->getExpectedTypeName());
         /** @var ScalarEnumType $integerEnumType */
         if ($integerEnumType::hasSubTypeEnum($this->getSubTypeEnumClass())) {
             self::assertTrue($integerEnumType::removeSubTypeEnum($this->getSubTypeEnumClass()));
         }
+
+        parent::tearDown();
     }
 
     protected function setUp()
     {
-        $enumTypeClass = $this->getEnumTypeClass();
-        if (!Type::hasType($enumTypeClass::getTypeName())) {
-            Type::addType($enumTypeClass::getTypeName(), $enumTypeClass);
+        if (!Type::hasType($this->getExpectedTypeName())) {
+            Type::addType($this->getExpectedTypeName(), $this->getTypeClass());
         }
-    }
-
-    /**
-     * @return \Doctrineum\Integer\IntegerEnumType
-     */
-    protected function getEnumTypeClass()
-    {
-        return IntegerEnumType::getClass();
-    }
-
-    /**
-     * @test
-     */
-    public function can_be_registered()
-    {
-        $enumTypeClass = $this->getEnumTypeClass();
-        if (!Type::hasType($enumTypeClass::getTypeName())) {
-            Type::addType($enumTypeClass::getTypeName(), $enumTypeClass);
-        }
-        self::assertTrue(Type::hasType($enumTypeClass::getTypeName()));
     }
 
     /**
      * @test
      * @return IntegerEnumType
      */
-    public function type_instance_can_be_obtained()
+    public function I_can_get_instance()
     {
-        $enumTypeClass = $this->getEnumTypeClass();
-        $instance = $enumTypeClass::getType($enumTypeClass::getTypeName());
+        $enumTypeClass = $this->getTypeClass();
+        $instance = $enumTypeClass::getType($this->getExpectedTypeName());
         self::assertInstanceOf($enumTypeClass, $instance);
 
         return $instance;
@@ -68,42 +47,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      * @param IntegerEnumType $integerEnumType
      *
      * @test
-     * @depends type_instance_can_be_obtained
-     */
-    public function type_name_is_as_expected(IntegerEnumType $integerEnumType)
-    {
-        $enumTypeClass = $this->getEnumTypeClass();
-        // like self_typed_integer_enum
-        $typeName = $this->convertToTypeName($enumTypeClass);
-        // like SELF_TYPED_INTEGER_ENUM
-        $constantName = strtoupper($typeName);
-        self::assertTrue(defined("$enumTypeClass::$constantName"));
-        self::assertSame($enumTypeClass::getTypeName(), $typeName);
-        self::assertSame($typeName, constant("$enumTypeClass::$constantName"));
-        self::assertSame($integerEnumType::getTypeName(), $enumTypeClass::getTypeName());
-    }
-
-    /**
-     * @param string $className
-     *
-     * @return string
-     */
-    private function convertToTypeName($className)
-    {
-        $withoutType = preg_replace('~Type$~', '', $className);
-        $parts = explode('\\', $withoutType);
-        $baseClassName = $parts[count($parts) - 1];
-        preg_match_all('~(?<words>[A-Z][^A-Z]+)~', $baseClassName, $matches);
-        $concatenated = implode('_', $matches['words']);
-
-        return strtolower($concatenated);
-    }
-
-    /**
-     * @param IntegerEnumType $integerEnumType
-     *
-     * @test
-     * @depends type_instance_can_be_obtained
+     * @depends I_can_get_instance
      */
     public function sql_declaration_is_valid(IntegerEnumType $integerEnumType)
     {
@@ -115,7 +59,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      * @param IntegerEnumType $integerEnumType
      *
      * @test
-     * @depends type_instance_can_be_obtained
+     * @depends I_can_get_instance
      */
     public function sql_default_length_is_ten(IntegerEnumType $integerEnumType)
     {
@@ -135,16 +79,16 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      * @param IntegerEnumType $integerEnumType
      *
      * @test
-     * @depends type_instance_can_be_obtained
+     * @depends I_can_get_instance
      */
     public function enum_as_database_value_is_integer_value_of_that_enum(IntegerEnumType $integerEnumType)
     {
-        $enum = \Mockery::mock(Enum::class);
+        $enum = \Mockery::mock(ScalarEnumInterface::class);
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $enum->shouldReceive('getValue')
             ->once()
             ->andReturn($value = 12345);
-        /** @var Enum $enum */
+        /** @var ScalarEnumInterface $enum */
         self::assertSame($value, $integerEnumType->convertToDatabaseValue($enum, $this->getAbstractPlatform()));
     }
 
@@ -156,34 +100,26 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      * @param IntegerEnumType $integerEnumType
      *
      * @test
-     * @depends type_instance_can_be_obtained
+     * @depends I_can_get_instance
      */
     public function integer_to_php_value_gives_enum_with_that_integer(IntegerEnumType $integerEnumType)
     {
         $enum = $integerEnumType->convertToPHPValue($integer = 12345, $this->getAbstractPlatform());
-        self::assertInstanceOf($this->getRegisteredEnumClass(), $enum);
+        self::assertInstanceOf($this->getRegisteredClass(), $enum);
         self::assertSame($integer, $enum->getValue());
         self::assertSame("$integer", (string)$enum);
-    }
-
-    /**
-     * @return \Doctrineum\Integer\IntegerEnum
-     */
-    protected function getRegisteredEnumClass()
-    {
-        return IntegerEnum::getClass();
     }
 
     /**
      * @param IntegerEnumType $integerEnumType
      *
      * @test
-     * @depends type_instance_can_be_obtained
+     * @depends I_can_get_instance
      */
     public function string_integer_to_php_value_gives_enum_with_that_integer(IntegerEnumType $integerEnumType)
     {
         $enum = $integerEnumType->convertToPHPValue($stringInteger = '12345', $this->getAbstractPlatform());
-        self::assertInstanceOf($this->getRegisteredEnumClass(), $enum);
+        self::assertInstanceOf($this->getRegisteredClass(), $enum);
         self::assertSame((int)$stringInteger, $enum->getValue());
         self::assertSame($stringInteger, (string)$enum);
     }
@@ -192,7 +128,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      * @param IntegerEnumType $integerEnumType
      *
      * @test
-     * @depends type_instance_can_be_obtained
+     * @depends I_can_get_instance
      */
     public function I_get_null_if_fetched_from_database(IntegerEnumType $integerEnumType)
     {
@@ -203,7 +139,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      * @param IntegerEnumType $integerEnumType
      *
      * @test
-     * @depends type_instance_can_be_obtained
+     * @depends I_can_get_instance
      * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
     public function It_raises_an_exception_if_get_empty_string_from_database(IntegerEnumType $integerEnumType)
@@ -215,7 +151,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      * @param IntegerEnumType $integerEnumType
      *
      * @test
-     * @depends type_instance_can_be_obtained
+     * @depends I_can_get_instance
      * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
     public function float_to_php_value_cause_exception(IntegerEnumType $integerEnumType)
@@ -227,7 +163,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      * @param IntegerEnumType $integerEnumType
      *
      * @test
-     * @depends type_instance_can_be_obtained
+     * @depends I_can_get_instance
      */
     public function zero_float_to_php_gives_zero(IntegerEnumType $integerEnumType)
     {
@@ -240,7 +176,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      * @param IntegerEnumType $integerEnumType
      *
      * @test
-     * @depends type_instance_can_be_obtained
+     * @depends I_can_get_instance
      */
     public function false_to_php_value_gives_zero(IntegerEnumType $integerEnumType)
     {
@@ -253,7 +189,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      * @param IntegerEnumType $integerEnumType
      *
      * @test
-     * @depends type_instance_can_be_obtained
+     * @depends I_can_get_instance
      */
     public function true_to_php_gives_one(IntegerEnumType $integerEnumType)
     {
@@ -266,7 +202,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      * @param IntegerEnumType $integerEnumType
      *
      * @test
-     * @depends type_instance_can_be_obtained
+     * @depends I_can_get_instance
      * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
     public function array_to_php_value_cause_exception(IntegerEnumType $integerEnumType)
@@ -278,7 +214,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      * @param IntegerEnumType $integerEnumType
      *
      * @test
-     * @depends type_instance_can_be_obtained
+     * @depends I_can_get_instance
      * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
     public function resource_to_php_value_cause_exception(IntegerEnumType $integerEnumType)
@@ -290,7 +226,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      * @param IntegerEnumType $integerEnumType
      *
      * @test
-     * @depends type_instance_can_be_obtained
+     * @depends I_can_get_instance
      * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
     public function object_to_php_value_cause_exception(IntegerEnumType $integerEnumType)
@@ -302,7 +238,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      * @param IntegerEnumType $integerEnumType
      *
      * @test
-     * @depends type_instance_can_be_obtained
+     * @depends I_can_get_instance
      * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
     public function callback_to_php_value_cause_exception(IntegerEnumType $integerEnumType)
@@ -321,7 +257,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      * @return IntegerEnumType
      *
      * @test
-     * @depends type_instance_can_be_obtained
+     * @depends I_can_get_instance
      */
     public function can_register_subtype(IntegerEnumType $integerEnumType)
     {
@@ -390,7 +326,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
          */
         $enum = $integerEnumType->convertToPHPValue($nonMatchingValueToConvert, $abstractPlatform);
         self::assertNotSame($nonMatchingValueToConvert, $enum);
-        self::assertInstanceOf(Enum::class, $enum);
+        self::assertInstanceOf(ScalarEnumInterface::class, $enum);
         self::assertSame("$nonMatchingValueToConvert", (string)$enum);
     }
 
@@ -398,7 +334,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      * @param IntegerEnumType $integerEnumType
      *
      * @test
-     * @depends type_instance_can_be_obtained
+     * @depends I_can_get_instance
      * @expectedException \Doctrineum\Scalar\Exceptions\SubTypeEnumIsAlreadyRegistered
      */
     public function registering_same_subtype_again_throws_exception(IntegerEnumType $integerEnumType)
@@ -413,7 +349,7 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
      * @param IntegerEnumType $integerEnumType
      *
      * @test
-     * @depends type_instance_can_be_obtained
+     * @depends I_can_get_instance
      * @expectedException \Doctrineum\Scalar\Exceptions\InvalidRegexpFormat
      * @expectedExceptionMessage The given regexp is not enclosed by same delimiters and therefore is not valid: 'foo~'
      */
@@ -425,32 +361,17 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function can_register_another_enum_type()
-    {
-        $anotherEnumType = $this->getAnotherEnumTypeClass();
-        if (!$anotherEnumType::isRegistered()) {
-            self::assertTrue($anotherEnumType::registerSelf());
-        } else {
-            self::assertFalse($anotherEnumType::registerSelf());
-        }
-
-        self::assertTrue($anotherEnumType::isRegistered());
-    }
-
-    /**
-     * @test
-     *
-     * @depends can_register_another_enum_type
-     */
     public function different_types_with_same_subtype_regexp_distinguish_them()
     {
-        $enumTypeClass = $this->getEnumTypeClass();
+        /** @var IntegerEnumType $enumTypeClass */
+        $enumTypeClass = $this->getTypeClass();
         if ($enumTypeClass::hasSubTypeEnum($this->getSubTypeEnumClass())) {
             $enumTypeClass::removeSubTypeEnum($this->getSubTypeEnumClass());
         }
         $enumTypeClass::addSubTypeEnum($this->getSubTypeEnumClass(), $regexp = '~[4-6]+~');
 
         $anotherEnumTypeClass = $this->getAnotherEnumTypeClass();
+        $anotherEnumTypeClass::registerSelf();
         if ($anotherEnumTypeClass::hasSubTypeEnum($this->getAnotherSubTypeEnumClass())) {
             $anotherEnumTypeClass::removeSubTypeEnum($this->getAnotherSubTypeEnumClass());
         }
@@ -460,12 +381,12 @@ class IntegerEnumTypeTest extends \PHPUnit_Framework_TestCase
         $value = 345678;
         self::assertRegExp($regexp, "$value");
 
-        $integerEnumType = Type::getType($enumTypeClass::getTypeName());
+        $integerEnumType = Type::getType($this->getExpectedTypeName());
         $enumSubType = $integerEnumType->convertToPHPValue($value, $this->getPlatform());
         self::assertInstanceOf($this->getSubTypeEnumClass(), $enumSubType);
         self::assertSame("$value", "$enumSubType");
 
-        $anotherEnumType = Type::getType($anotherEnumTypeClass::getTypeName());
+        $anotherEnumType = Type::getType($this->getExpectedTypeName($anotherEnumTypeClass));
         $anotherEnumSubType = $anotherEnumType->convertToPHPValue($value, $this->getPlatform());
         self::assertInstanceOf($this->getSubTypeEnumClass(), $enumSubType);
         self::assertSame("$value", "$anotherEnumSubType");
@@ -521,5 +442,10 @@ class TestAnotherSubTypeIntegerEnum extends IntegerEnum
 
 class TestAnotherIntegerEnumType extends IntegerEnumType
 {
+    const TEST_ANOTHER_INTEGER_ENUM = 'test_another_integer_enum';
 
+    public function getName()
+    {
+        return self::TEST_ANOTHER_INTEGER_ENUM;
+    }
 }

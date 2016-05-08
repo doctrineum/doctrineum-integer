@@ -17,6 +17,14 @@ class IntegerEnumType extends ScalarEnumType
     const INTEGER_ENUM = 'integer_enum';
 
     /**
+     * @return string
+     */
+    public function getName()
+    {
+        return self::INTEGER_ENUM;
+    }
+
+    /**
      * @see \Doctrineum\Scalar\EnumType::convertToPHPValue for usage
      *
      * @param mixed $enumValue
