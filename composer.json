@@ -3,6 +3,14 @@
   "type": "library",
   "description": "Enumeration type for Doctrine - integers only",
   "license": "MIT",
+  "authors": [
+    {
+      "name": "Jaroslav Týc",
+      "email": "mail@jaroslavtyc.com",
+      "homepage": "https://www.jaroslavtyc.com",
+      "role": "Developer"
+    }
+  ],
   "autoload": {
     "psr-4": {"Doctrineum\\": "Doctrineum/"}
   },
