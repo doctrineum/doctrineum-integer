@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/jaroslavtyc/doctrineum-integer.svg?branch=master)](https://travis-ci.org/jaroslavtyc/doctrineum-integer)
+[![Test Coverage](https://codeclimate.com/github/jaroslavtyc/doctrineum-integer/badges/coverage.svg)](https://codeclimate.com/github/jaroslavtyc/doctrineum-integer/coverage)
+[![License](https://poser.pugx.org/doctrineum/integer/license)](https://packagist.org/packages/doctrineum/integer)
 
 
 # About
