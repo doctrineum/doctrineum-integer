@@ -20,7 +20,7 @@ class IntegerEnumTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Doctrineum\Integer\IntegerEnum
+     * @return \Doctrineum\Integer\IntegerEnum|string
      */
     protected function getEnumClass()
     {
@@ -172,7 +172,7 @@ class IntegerEnumTest extends \PHPUnit_Framework_TestCase
 
     protected function getInheritedEnum($value)
     {
-        return new TestInheritedIntegerEnum($value);
+        return TestInheritedIntegerEnum::getEnum($value);
     }
 }
 
