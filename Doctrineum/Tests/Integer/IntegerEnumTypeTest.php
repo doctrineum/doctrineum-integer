@@ -32,7 +32,7 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @test
-     * @return IntegerEnumType
+     * @return IntegerEnumType|Type
      */
     public function I_can_get_instance()
     {
@@ -68,7 +68,7 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
     }
 
     /**
-     * @return AbstractPlatform
+     * @return AbstractPlatform|\Mockery\MockInterface
      */
     private function getAbstractPlatform()
     {
@@ -396,7 +396,7 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
     }
 
     /**
-     * @return AbstractPlatform
+     * @return AbstractPlatform|\Mockery\MockInterface
      */
     protected function getPlatform()
     {
@@ -408,7 +408,7 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
      */
     protected function getSubTypeEnumClass()
     {
-        return TestSubTypeIntegerEnum::getClass();
+        return TestSubTypeIntegerEnum::class;
     }
 
     /**
@@ -416,7 +416,7 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
      */
     protected function getAnotherSubTypeEnumClass()
     {
-        return TestAnotherSubTypeIntegerEnum::getClass();
+        return TestAnotherSubTypeIntegerEnum::class;
     }
 
     /**
@@ -424,7 +424,7 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
      */
     protected function getAnotherEnumTypeClass()
     {
-        return TestAnotherIntegerEnumType::getClass();
+        return TestAnotherIntegerEnumType::class;
     }
 
 }

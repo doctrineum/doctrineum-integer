@@ -24,7 +24,7 @@ class IntegerEnumTest extends \PHPUnit_Framework_TestCase
      */
     protected function getEnumClass()
     {
-        return IntegerEnum::getClass();
+        return IntegerEnum::class;
     }
 
     /**
