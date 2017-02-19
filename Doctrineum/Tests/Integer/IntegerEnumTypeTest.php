@@ -45,7 +45,6 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param IntegerEnumType $integerEnumType
-     *
      * @test
      * @depends I_can_get_instance
      */
@@ -57,7 +56,6 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param IntegerEnumType $integerEnumType
-     *
      * @test
      * @depends I_can_get_instance
      */
@@ -77,7 +75,6 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param IntegerEnumType $integerEnumType
-     *
      * @test
      * @depends I_can_get_instance
      */
@@ -98,7 +95,6 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param IntegerEnumType $integerEnumType
-     *
      * @test
      * @depends I_can_get_instance
      */
@@ -112,7 +108,6 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param IntegerEnumType $integerEnumType
-     *
      * @test
      * @depends I_can_get_instance
      */
@@ -126,7 +121,6 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param IntegerEnumType $integerEnumType
-     *
      * @test
      * @depends I_can_get_instance
      */
@@ -137,7 +131,6 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param IntegerEnumType $integerEnumType
-     *
      * @test
      * @depends I_can_get_instance
      * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
@@ -149,7 +142,6 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param IntegerEnumType $integerEnumType
-     *
      * @test
      * @depends I_can_get_instance
      * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
@@ -161,7 +153,6 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param IntegerEnumType $integerEnumType
-     *
      * @test
      * @depends I_can_get_instance
      */
@@ -174,7 +165,6 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param IntegerEnumType $integerEnumType
-     *
      * @test
      * @depends I_can_get_instance
      */
@@ -187,7 +177,6 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param IntegerEnumType $integerEnumType
-     *
      * @test
      * @depends I_can_get_instance
      */
@@ -200,7 +189,6 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param IntegerEnumType $integerEnumType
-     *
      * @test
      * @depends I_can_get_instance
      * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
@@ -212,7 +200,6 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param IntegerEnumType $integerEnumType
-     *
      * @test
      * @depends I_can_get_instance
      * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
@@ -224,7 +211,6 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param IntegerEnumType $integerEnumType
-     *
      * @test
      * @depends I_can_get_instance
      * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
@@ -236,7 +222,6 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param IntegerEnumType $integerEnumType
-     *
      * @test
      * @depends I_can_get_instance
      * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
@@ -253,9 +238,7 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param IntegerEnumType $integerEnumType
-     *
      * @return IntegerEnumType
-     *
      * @test
      * @depends I_can_get_instance
      */
@@ -269,7 +252,6 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param IntegerEnumType $integerEnumType
-     *
      * @test
      * @depends can_register_subtype
      */
@@ -277,6 +259,7 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
     {
         /**
          * The subtype is unregistered because of tearDown clean up
+         *
          * @see IntegerEnumTypeTestTrait::tearDown
          */
         self::assertFalse($integerEnumType::hasSubTypeEnum($this->getSubTypeEnumClass()), 'Subtype should not be registered yet');
@@ -287,7 +270,6 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param IntegerEnumType $integerEnumType
-     *
      * @test
      * @depends can_register_subtype
      */
@@ -300,6 +282,7 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
         self::assertRegExp($regexp, "$matchingValueToConvert");
         /**
          * Used TestSubtype returns as an "enum" the given value, which is $valueToConvert in this case,
+         *
          * @see \Doctrineum\Tests\Scalar\TestSubtype::getEnum
          */
         $enumFromSubType = $integerEnumType->convertToPHPValue($matchingValueToConvert, $abstractPlatform);
@@ -309,7 +292,6 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param IntegerEnumType $integerEnumType
-     *
      * @test
      * @depends can_register_subtype
      */
@@ -322,6 +304,7 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
         self::assertNotRegExp($regexp, "$nonMatchingValueToConvert");
         /**
          * Used TestSubtype returns as an "enum" the given value, which is $valueToConvert in this case,
+         *
          * @see \Doctrineum\Tests\Scalar\TestSubtype::getEnum
          */
         $enum = $integerEnumType->convertToPHPValue($nonMatchingValueToConvert, $abstractPlatform);
@@ -332,7 +315,6 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param IntegerEnumType $integerEnumType
-     *
      * @test
      * @depends I_can_get_instance
      * @expectedException \Doctrineum\Scalar\Exceptions\SubTypeEnumIsAlreadyRegistered
@@ -347,7 +329,6 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @param IntegerEnumType $integerEnumType
-     *
      * @test
      * @depends I_can_get_instance
      * @expectedException \Doctrineum\Scalar\Exceptions\InvalidRegexpFormat

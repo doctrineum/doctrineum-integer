@@ -5,8 +5,9 @@ use Doctrineum\Integer\IntegerEnum;
 use Doctrineum\Scalar\ScalarEnumInterface;
 use Doctrineum\Tests\Scalar\Helpers\WithToStringTestObject;
 use Granam\Integer\IntegerInterface;
+use PHPUnit\Framework\TestCase;
 
-class IntegerEnumTest extends \PHPUnit_Framework_TestCase
+class IntegerEnumTest extends TestCase
 {
     /**
      * @test
