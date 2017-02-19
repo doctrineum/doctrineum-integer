@@ -6,7 +6,9 @@ php:
   - 7.0
 matrix:
   allow_failures:
-    - php: nightly
+    - php:
+      - nightly
+      - hhvm
 
 before_script:
   - composer selfupdate
