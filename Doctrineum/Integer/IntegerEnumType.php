@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1); // on PHP 7+ are standard PHP methods strict to types of given parameters
+
 namespace Doctrineum\Integer;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -7,8 +9,8 @@ use Granam\Integer\Tools\ToInteger;
 
 /**
  * Class EnumType
- * @package Doctrineum
  *
+ * @package Doctrineum
  * @method static IntegerEnumType getType($name),
  * @see Type::getType
  */
@@ -19,19 +21,18 @@ class IntegerEnumType extends ScalarEnumType
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::INTEGER_ENUM;
     }
 
     /**
      * @see \Doctrineum\Scalar\EnumType::convertToPHPValue for usage
-     *
      * @param mixed $enumValue
      * @return IntegerEnum
      * @throws \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
-    protected function convertToEnum($enumValue)
+    protected function convertToEnum($enumValue): IntegerEnum
     {
         return parent::convertToEnum($this->toInteger($enumValue));
     }
@@ -41,7 +42,7 @@ class IntegerEnumType extends ScalarEnumType
      * @return int
      * @throws \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
-    protected function toInteger($value)
+    protected function toInteger($value): int
     {
         try {
             return ToInteger::toInteger($value, true /* strict */);
@@ -56,14 +57,13 @@ class IntegerEnumType extends ScalarEnumType
      *
      * @param array $fieldDeclaration The field declaration.
      * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform The currently used database platform.
-     *
      * @return string
      */
     public function getSQLDeclaration(
         /** @noinspection PhpUnusedParameterInspection */
         array $fieldDeclaration,
         AbstractPlatform $platform
-    )
+    ): string
     {
         return 'INTEGER';
     }
@@ -78,7 +78,7 @@ class IntegerEnumType extends ScalarEnumType
     public function getDefaultLength(
         /** @noinspection PhpUnusedParameterInspection */
         AbstractPlatform $platform
-    )
+    ): int
     {
         return 10;
     }

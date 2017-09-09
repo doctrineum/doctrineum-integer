@@ -9,7 +9,7 @@ class DoctrineumIntegerExceptionsHierarchyTest extends AbstractExceptionsHierarc
     /**
      * @return string
      */
-    protected function getTestedNamespace()
+    protected function getTestedNamespace(): string
     {
         return $this->getRootNamespace();
     }
@@ -17,7 +17,7 @@ class DoctrineumIntegerExceptionsHierarchyTest extends AbstractExceptionsHierarc
     /**
      * @return string
      */
-    protected function getRootNamespace()
+    protected function getRootNamespace(): string
     {
         return str_replace('\Tests', '', __NAMESPACE__);
     }
@@ -25,11 +25,11 @@ class DoctrineumIntegerExceptionsHierarchyTest extends AbstractExceptionsHierarc
     /**
      * @return string
      */
-    protected function getExternalRootNamespaces()
+    protected function getExternalRootNamespaces(): string
     {
         $externalRootReflection = new \ReflectionClass(ScalarEnumInterface::class);
 
-        return [$externalRootReflection->getNamespaceName()];
+        return $externalRootReflection->getNamespaceName();
     }
 
 }

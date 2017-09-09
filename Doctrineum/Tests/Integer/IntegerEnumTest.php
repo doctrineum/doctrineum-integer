@@ -23,7 +23,7 @@ class IntegerEnumTest extends TestCase
     /**
      * @return \Doctrineum\Integer\IntegerEnum|string
      */
-    protected function getEnumClass()
+    protected function getEnumClass(): string
     {
         return IntegerEnum::class;
     }

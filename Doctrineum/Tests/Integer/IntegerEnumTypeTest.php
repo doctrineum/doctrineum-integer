@@ -425,7 +425,7 @@ class TestAnotherIntegerEnumType extends IntegerEnumType
 {
     const TEST_ANOTHER_INTEGER_ENUM = 'test_another_integer_enum';
 
-    public function getName()
+    public function getName(): string
     {
         return self::TEST_ANOTHER_INTEGER_ENUM;
     }
