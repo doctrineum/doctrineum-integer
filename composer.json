@@ -15,7 +15,7 @@
     "psr-4": {"Doctrineum\\": "Doctrineum/"}
   },
   "require": {
-    "php": ">=7.0",
+    "php": ">=7.1",
     "doctrineum/scalar": "dev-master",
     "granam/strict-object": "dev-master",
     "granam/integer": "dev-master"
