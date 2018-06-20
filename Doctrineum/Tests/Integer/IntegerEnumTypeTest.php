@@ -12,7 +12,10 @@ use Doctrineum\Tests\SelfRegisteringType\AbstractSelfRegisteringTypeTest;
 class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 {
 
-    protected function tearDown()
+    /**
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    protected function tearDown(): void
     {
         $integerEnumType = Type::getType($this->getExpectedTypeName());
         /** @var ScalarEnumType $integerEnumType */
@@ -23,7 +26,10 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
         parent::tearDown();
     }
 
-    protected function setUp()
+    /**
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    protected function setUp(): void
     {
         if (!Type::hasType($this->getExpectedTypeName())) {
             Type::addType($this->getExpectedTypeName(), $this->getTypeClass());
@@ -33,8 +39,9 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
     /**
      * @test
      * @return IntegerEnumType|Type
+     * @throws \Doctrine\DBAL\DBALException
      */
-    public function I_can_get_instance()
+    public function I_can_get_instance(): IntegerEnumType
     {
         $enumTypeClass = $this->getTypeClass();
         $instance = $enumTypeClass::getType($this->getExpectedTypeName());
@@ -48,7 +55,7 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
      * @test
      * @depends I_can_get_instance
      */
-    public function sql_declaration_is_valid(IntegerEnumType $integerEnumType)
+    public function sql_declaration_is_valid(IntegerEnumType $integerEnumType): void
     {
         $sql = $integerEnumType->getSQLDeclaration([], $this->getAbstractPlatform());
         self::assertSame('INTEGER', $sql);
@@ -59,7 +66,7 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
      * @test
      * @depends I_can_get_instance
      */
-    public function sql_default_length_is_ten(IntegerEnumType $integerEnumType)
+    public function sql_default_length_is_ten(IntegerEnumType $integerEnumType): void
     {
         $defaultLength = $integerEnumType->getDefaultLength($this->getAbstractPlatform());
         self::assertSame(10, $defaultLength);
@@ -68,7 +75,7 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
     /**
      * @return AbstractPlatform|\Mockery\MockInterface
      */
-    private function getAbstractPlatform()
+    private function getAbstractPlatform(): AbstractPlatform
     {
         return \Mockery::mock(AbstractPlatform::class);
     }
@@ -78,7 +85,7 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
      * @test
      * @depends I_can_get_instance
      */
-    public function enum_as_database_value_is_integer_value_of_that_enum(IntegerEnumType $integerEnumType)
+    public function enum_as_database_value_is_integer_value_of_that_enum(IntegerEnumType $integerEnumType): void
     {
         $enum = \Mockery::mock(ScalarEnumInterface::class);
         /** @noinspection PhpMethodParametersCountMismatchInspection */
@@ -97,21 +104,23 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
      * @param IntegerEnumType $integerEnumType
      * @test
      * @depends I_can_get_instance
+     * @throws \ReflectionException
      */
-    public function integer_to_php_value_gives_enum_with_that_integer(IntegerEnumType $integerEnumType)
+    public function integer_to_php_value_gives_enum_with_that_integer(IntegerEnumType $integerEnumType): void
     {
         $enum = $integerEnumType->convertToPHPValue($integer = 12345, $this->getAbstractPlatform());
         self::assertInstanceOf($this->getRegisteredClass(), $enum);
         self::assertSame($integer, $enum->getValue());
-        self::assertSame("$integer", (string)$enum);
+        self::assertSame((string)$integer, (string)$enum);
     }
 
     /**
      * @param IntegerEnumType $integerEnumType
      * @test
      * @depends I_can_get_instance
+     * @throws \ReflectionException
      */
-    public function string_integer_to_php_value_gives_enum_with_that_integer(IntegerEnumType $integerEnumType)
+    public function string_integer_to_php_value_gives_enum_with_that_integer(IntegerEnumType $integerEnumType): void
     {
         $enum = $integerEnumType->convertToPHPValue($stringInteger = '12345', $this->getAbstractPlatform());
         self::assertInstanceOf($this->getRegisteredClass(), $enum);
@@ -123,8 +132,9 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
      * @param IntegerEnumType $integerEnumType
      * @test
      * @depends I_can_get_instance
+     * @throws \ReflectionException
      */
-    public function I_get_null_if_fetched_from_database(IntegerEnumType $integerEnumType)
+    public function I_get_null_if_fetched_from_database(IntegerEnumType $integerEnumType): void
     {
         self::assertNull($integerEnumType->convertToPHPValue(null, $this->getAbstractPlatform()));
     }
@@ -135,7 +145,7 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
      * @depends I_can_get_instance
      * @expectedException \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
-    public function It_raises_an_exception_if_get_empty_string_from_database(IntegerEnumType $integerEnumType)
+    public function It_raises_an_exception_if_get_empty_string_from_database(IntegerEnumType $integerEnumType): void
     {
         $integerEnumType->convertToPHPValue('', $this->getAbstractPlatform());
     }
@@ -360,17 +370,17 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
         $anotherEnumTypeClass::addSubTypeEnum($this->getAnotherSubTypeEnumClass(), $regexp);
 
         $value = 345678;
-        self::assertRegExp($regexp, "$value");
+        self::assertRegExp($regexp, (string)$value);
 
         $integerEnumType = Type::getType($this->getExpectedTypeName());
         $enumSubType = $integerEnumType->convertToPHPValue($value, $this->getPlatform());
         self::assertInstanceOf($this->getSubTypeEnumClass(), $enumSubType);
-        self::assertSame("$value", "$enumSubType");
+        self::assertSame((string)$value, (string)$enumSubType);
 
         $anotherEnumType = Type::getType($this->getExpectedTypeName($anotherEnumTypeClass));
         $anotherEnumSubType = $anotherEnumType->convertToPHPValue($value, $this->getPlatform());
         self::assertInstanceOf($this->getSubTypeEnumClass(), $enumSubType);
-        self::assertSame("$value", "$anotherEnumSubType");
+        self::assertSame((string)$value, (string)$anotherEnumSubType);
 
         // registered sub-types were different, just regexp was the same - let's test if they are kept separately
         self::assertNotSame($enumSubType, $anotherEnumSubType);
@@ -423,7 +433,7 @@ class TestAnotherSubTypeIntegerEnum extends IntegerEnum
 
 class TestAnotherIntegerEnumType extends IntegerEnumType
 {
-    const TEST_ANOTHER_INTEGER_ENUM = 'test_another_integer_enum';
+    public const TEST_ANOTHER_INTEGER_ENUM = 'test_another_integer_enum';
 
     public function getName(): string
     {

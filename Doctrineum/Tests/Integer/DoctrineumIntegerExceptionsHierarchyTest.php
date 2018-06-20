@@ -24,6 +24,7 @@ class DoctrineumIntegerExceptionsHierarchyTest extends AbstractExceptionsHierarc
 
     /**
      * @return string
+     * @throws \ReflectionException
      */
     protected function getExternalRootNamespaces(): string
     {
