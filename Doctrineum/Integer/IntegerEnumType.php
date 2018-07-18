@@ -4,6 +4,7 @@ declare(strict_types=1); // on PHP 7+ are standard PHP methods strict to types o
 namespace Doctrineum\Integer;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrineum\Scalar\ScalarEnumInterface;
 use Doctrineum\Scalar\ScalarEnumType;
 use Granam\Integer\Tools\ToInteger;
 
@@ -16,7 +17,7 @@ use Granam\Integer\Tools\ToInteger;
  */
 class IntegerEnumType extends ScalarEnumType
 {
-    const INTEGER_ENUM = 'integer_enum';
+    public const INTEGER_ENUM = 'integer_enum';
 
     /**
      * @return string
@@ -32,7 +33,7 @@ class IntegerEnumType extends ScalarEnumType
      * @return IntegerEnum
      * @throws \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
-    protected function convertToEnum($enumValue): IntegerEnum
+    protected function convertToEnum($enumValue): ScalarEnumInterface
     {
         return parent::convertToEnum($this->toInteger($enumValue));
     }
