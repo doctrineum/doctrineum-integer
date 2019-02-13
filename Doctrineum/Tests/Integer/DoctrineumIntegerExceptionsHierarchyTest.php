@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Doctrineum\Tests\Integer;
 
-use Doctrineum\Scalar\ScalarEnumInterface;
+use Doctrineum\Scalar\ScalarEnum;
 use Granam\Tests\ExceptionsHierarchy\Exceptions\AbstractExceptionsHierarchyTest;
 
 class DoctrineumIntegerExceptionsHierarchyTest extends AbstractExceptionsHierarchyTest
@@ -30,7 +30,7 @@ class DoctrineumIntegerExceptionsHierarchyTest extends AbstractExceptionsHierarc
      */
     protected function getExternalRootNamespaces(): string
     {
-        $externalRootReflection = new \ReflectionClass(ScalarEnumInterface::class);
+        $externalRootReflection = new \ReflectionClass(ScalarEnum::class);
 
         return $externalRootReflection->getNamespaceName();
     }

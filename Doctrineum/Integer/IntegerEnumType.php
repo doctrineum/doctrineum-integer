@@ -1,12 +1,13 @@
 <?php
-declare(strict_types=1); // on PHP 7+ are standard PHP methods strict to types of given parameters
+declare(strict_types=1);
 
 namespace Doctrineum\Integer;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrineum\Scalar\ScalarEnumInterface;
 use Doctrineum\Scalar\ScalarEnumType;
 use Granam\Integer\Tools\ToInteger;
+use Granam\IntegerEnum\IntegerEnumInterface;
+use Granam\ScalarEnum\ScalarEnumInterface;
 
 /**
  * Class EnumType
@@ -30,7 +31,7 @@ class IntegerEnumType extends ScalarEnumType
     /**
      * @see \Doctrineum\Scalar\EnumType::convertToPHPValue for usage
      * @param mixed $enumValue
-     * @return IntegerEnum
+     * @return IntegerEnumInterface|ScalarEnumInterface
      * @throws \Doctrineum\Integer\Exceptions\UnexpectedValueToConvert
      */
     protected function convertToEnum($enumValue): ScalarEnumInterface
@@ -75,6 +76,7 @@ class IntegerEnumType extends ScalarEnumType
      *
      * @param AbstractPlatform $platform
      * @return int
+     * @deprecated Rely on information provided by the platform instead.
      */
     public function getDefaultLength(
         /** @noinspection PhpUnusedParameterInspection */

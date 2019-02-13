@@ -7,9 +7,9 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 use Doctrineum\Integer\IntegerEnum;
 use Doctrineum\Integer\IntegerEnumType;
-use Doctrineum\Scalar\ScalarEnumInterface;
 use Doctrineum\Scalar\ScalarEnumType;
 use Doctrineum\Tests\SelfRegisteringType\AbstractSelfRegisteringTypeTest;
+use Granam\ScalarEnum\ScalarEnumInterface;
 
 class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 {
@@ -207,6 +207,7 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
      */
     public function array_to_php_value_cause_exception(IntegerEnumType $integerEnumType)
     {
+        /** @noinspection PhpParamsInspection */
         $integerEnumType->convertToPHPValue([], $this->getAbstractPlatform());
     }
 
@@ -291,7 +292,7 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
         /** @var AbstractPlatform $abstractPlatform */
         $abstractPlatform = \Mockery::mock(AbstractPlatform::class);
         $matchingValueToConvert = 123456789;
-        self::assertRegExp($regexp, "$matchingValueToConvert");
+        self::assertRegExp($regexp, (string)$matchingValueToConvert);
         /**
          * Used TestSubtype returns as an "enum" the given value, which is $valueToConvert in this case,
          *
@@ -299,7 +300,7 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
          */
         $enumFromSubType = $integerEnumType->convertToPHPValue($matchingValueToConvert, $abstractPlatform);
         self::assertInstanceOf($this->getSubTypeEnumClass(), $enumFromSubType);
-        self::assertSame("$matchingValueToConvert", "$enumFromSubType");
+        self::assertSame((string)$matchingValueToConvert, (string)$enumFromSubType);
     }
 
     /**
@@ -313,7 +314,7 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
         /** @var AbstractPlatform $abstractPlatform */
         $abstractPlatform = \Mockery::mock(AbstractPlatform::class);
         $nonMatchingValueToConvert = 99999999;
-        self::assertNotRegExp($regexp, "$nonMatchingValueToConvert");
+        self::assertNotRegExp($regexp, (string)$nonMatchingValueToConvert);
         /**
          * Used TestSubtype returns as an "enum" the given value, which is $valueToConvert in this case,
          *
@@ -322,7 +323,7 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
         $enum = $integerEnumType->convertToPHPValue($nonMatchingValueToConvert, $abstractPlatform);
         self::assertNotSame($nonMatchingValueToConvert, $enum);
         self::assertInstanceOf(ScalarEnumInterface::class, $enum);
-        self::assertSame("$nonMatchingValueToConvert", (string)$enum);
+        self::assertSame((string)$nonMatchingValueToConvert, (string)$enum);
     }
 
     /**
@@ -353,6 +354,7 @@ class IntegerEnumTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @test
+     * @throws \Doctrine\DBAL\DBALException
      */
     public function different_types_with_same_subtype_regexp_distinguish_them()
     {

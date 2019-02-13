@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace Doctrineum\Tests\Integer;
 
 use Doctrineum\Integer\IntegerEnum;
-use Doctrineum\Scalar\ScalarEnumInterface;
 use Doctrineum\Tests\Scalar\Helpers\WithToStringTestObject;
 use Granam\Integer\IntegerInterface;
+use Granam\ScalarEnum\ScalarEnumInterface;
 use PHPUnit\Framework\TestCase;
 
 class IntegerEnumTest extends TestCase
